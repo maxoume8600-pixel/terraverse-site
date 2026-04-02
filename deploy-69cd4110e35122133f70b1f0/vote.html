@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vote - TerraVerse Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vote TerraVerse - Soutiens le serveur et gagne des recompenses en jeu.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260401-1">
+  <style>
+    .page-wrap {
+      padding: 6.5rem 1.5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .vote-layout {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 1rem;
+    }
+    .vote-list {
+      display: grid;
+      gap: 0.8rem;
+    }
+    .vote-card {
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.18), rgba(0, 255, 136, 0.14));
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 1.2rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+    }
+    .vote-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 229, 255, 0.48);
+      box-shadow: 0 10px 24px rgba(0, 229, 255, 0.2);
+    }
+    .vote-card h3 {
+      font-size: 1.7rem;
+      margin: 0;
+      letter-spacing: 0.03em;
+    }
+    .vote-card p {
+      margin: 0.35rem 0 0;
+      color: rgba(245, 247, 255, 0.72);
+      font-size: 0.84rem;
+    }
+    .vote-arrow {
+      font-size: 1.6rem;
+      color: #00e5ff;
+      font-weight: 700;
+    }
+    .vote-side {
+      display: grid;
+      gap: 0.8rem;
+    }
+    .side-card {
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 1rem 1.1rem;
+      backdrop-filter: blur(10px);
+    }
+    .side-card h4 {
+      font-size: 1rem;
+      margin: 0 0 0.55rem;
+    }
+    .progress-track {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.15);
+      overflow: hidden;
+      margin-bottom: 0.45rem;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(45deg, #c637ff, #c637ff 8px, #ef89ff 8px, #ef89ff 16px);
+      background-size: 200% 200%;
+      animation: move-stripes 1.8s linear infinite;
+      transition: width 0.4s ease;
+    }
+    @keyframes move-stripes {
+      0% { background-position: 0 0; }
+      100% { background-position: 80px 0; }
+    }
+    .side-card p {
+      color: rgba(245, 247, 255, 0.78);
+      font-size: 0.84rem;
+      line-height: 1.5;
+    }
+    .account-row {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-top: 0.55rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 0.45rem 0.55rem;
+      width: fit-content;
+    }
+    .account-row img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+    }
+    .account-row strong {
+      font-size: 0.9rem;
+    }
+    .ranking-zone {
+      max-width: 1200px;
+      margin: 2rem auto 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1.3rem;
+    }
+    .ranking-list {
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+    .ranking-note {
+      margin-top: 0.65rem;
+      color: rgba(245, 247, 255, 0.62);
+      font-size: 0.8rem;
+    }
+    .ranking-item {
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.72rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      color: rgba(245, 247, 255, 0.9);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 8, 16, 0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding: 1rem;
+    }
+    .modal-backdrop.open { display: flex; }
+    .vote-modal {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      color: #1f2a38;
+      border-radius: 16px;
+      padding: 1.15rem;
+      box-shadow: 0 28px 58px rgba(0, 0, 0, 0.35);
+      position: relative;
+    }
+    .close-modal {
+      position: absolute;
+      top: 0.55rem;
+      right: 0.8rem;
+      border: none;
+      background: none;
+      font-size: 1.45rem;
+      cursor: pointer;
+      color: #5f6572;
+    }
+    .vote-modal h3 {
+      margin: 0.25rem 0 0.75rem;
+      text-align: center;
+      font-size: 1.45rem;
+    }
+    .avatar-preview {
+      display: block;
+      width: 56px;
+      height: 56px;
+      border-radius: 10px;
+      margin: 0 auto 0.8rem;
+      object-fit: cover;
+      background: #ececec;
+    }
+    .version-switch {
+      display: flex;
+      gap: 0.45rem;
+      background: #f1f1f1;
+      border-radius: 10px;
+      padding: 0.3rem;
+      margin-bottom: 0.8rem;
+    }
+    .version-switch button {
+      flex: 1;
+      border: none;
+      background: transparent;
+      border-radius: 8px;
+      padding: 0.55rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #4d5868;
+    }
+    .version-switch button.active {
+      background: #79df25;
+      color: #173500;
+    }
+    .input-row {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .input-row input {
+      flex: 1;
+      border: 1px solid #d8d8d8;
+      border-radius: 10px;
+      padding: 0.7rem 0.78rem;
+      font-family: inherit;
+      font-size: 0.93rem;
+    }
+    .submit-btn {
+      border: none;
+      border-radius: 10px;
+      padding: 0.7rem 0.9rem;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #85f72a, #59c601);
+      color: #173500;
+    }
+    .hint {
+      margin: 0.6rem 0 0;
+      text-align: center;
+      color: #5f6777;
+      font-size: 0.8rem;
+    }
+    .account-mini {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.38rem 0.55rem;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      margin-right: 0.45rem;
+      min-width: 0;
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .account-mini:hover {
+      border-color: rgba(0, 229, 255, 0.45);
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .account-mini img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .account-mini strong {
+      font-size: 0.82rem;
+      color: rgba(245, 247, 255, 0.88);
+      max-width: 92px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .name-switch {
+      font-size: 0.75rem;
+      margin-left: 0.15rem;
+      opacity: 0.9;
+    }
+    @media (max-width: 900px) {
+      .vote-layout { grid-template-columns: 1fr; }
+      .account-mini { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+
+  <header>
+    <div class="nav-container">
+      <div class="nav-logo">
+        <img src="logo.png" alt="TerraVerse" class="nav-logo-img">
+        <span class="nav-logo-text">TerraVerse</span>
+      </div>
+
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#modes">Modes</a>
+        <a href="shop.html">Boutique</a>
+        <a href="vote.html" style="color:#00e5ff">Vote</a>
+        <a href="index.html#discord">Discord</a>
+      </nav>
+
+      <div class="account-mini" id="changePseudoBtn" title="Changer le pseudo">
+        <img id="headerAccountAvatar" src="https://mc-heads.net/avatar/Steve/48" alt="Compte">
+        <strong id="headerAccountName">Invite</strong>
+        <span class="name-switch">⇄</span>
+      </div>
+
+      <button class="btn-jouer" onclick="window.location.href='index.html#howto'">▶ Jouer</button>
+    </div>
+  </header>
+
+  <main class="page-wrap">
+    <div class="section-container">
+      <p class="section-kicker">VOTE</p>
+      <h1 class="section-title">Plus vous votez, plus vous gagnez !</h1>
+    </div>
+
+    <section class="vote-layout">
+      <div class="vote-list">
+        <a href="#" class="vote-card" data-vote-url="https://top-serveurs.net/minecraft/vote/terraverse-explorez-un-univers-infinni-survie-i-pvp-i-skyblock-i-oneblock">
+          <div>
+            <h3>VOTE #1</h3>
+            <p>Top-Serveurs.net</p>
+          </div>
+          <span class="vote-arrow">↗</span>
+        </a>
+        <a href="#" class="vote-card" data-vote-url="https://top-serveurs.net/minecraft/vote/terraverse-explorez-un-univers-infinni-survie-i-pvp-i-skyblock-i-oneblock">
+          <div>
+            <h3>VOTE #2</h3>
+            <p>Bientot disponible</p>
+          </div>
+          <span class="vote-arrow">↗</span>
+        </a>
+        <a href="#" class="vote-card" data-vote-url="https://top-serveurs.net/minecraft/vote/terraverse-explorez-un-univers-infinni-survie-i-pvp-i-skyblock-i-oneblock">
+          <div>
+            <h3>VOTE #3</h3>
+            <p>Bientot disponible</p>
+          </div>
+          <span class="vote-arrow">↗</span>
+        </a>
+      </div>
+
+      <div class="vote-side">
+        <article class="side-card">
+          <h4>Objectif de vote journalier</h4>
+          <div class="progress-track"><div class="progress-bar" id="dailyGoalBar"></div></div>
+          <p id="dailyGoalText">Boost cle vote x3 pendant 7j 8h.</p>
+        </article>
+
+        <article class="side-card">
+          <h4>Comment ca marche ?</h4>
+          <p>Clique sur un bloc Vote, entre ton pseudo puis valide. Le site s'ouvre directement avec ton pseudo.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="ranking-zone section-container">
+      <p class="section-kicker">CLASSEMENT</p>
+      <h2 class="section-title" style="margin-bottom:0.35rem">Top voteurs de la semaine</h2>
+      <div class="ranking-list" id="rankingList"></div>
+      <p class="ranking-note" id="rankingNote"></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <img src="logo.png" alt="TerraVerse" class="footer-logo">
+      <div class="footer-links">
+        <a href="index.html#modes">Modes</a>
+        <a href="shop.html">Boutique</a>
+        <a href="vote.html">Vote</a>
+        <a href="index.html#discord">Discord</a>
+      </div>
+      <p>© <span id="year"></span> TerraVerse Network - Tous droits reserves.</p>
+    </div>
+  </footer>
+
+  <div class="modal-backdrop" id="voteModalBackdrop" aria-hidden="true">
+    <div class="vote-modal" role="dialog" aria-modal="true" aria-labelledby="voteModalTitle">
+      <button class="close-modal" id="closeVoteModal" aria-label="Fermer">×</button>
+      <h3 id="voteModalTitle">Entre ton pseudo Minecraft</h3>
+      <img id="avatarPreview" class="avatar-preview" src="https://mc-heads.net/avatar/Steve/64" alt="Apercu skin">
+      <div class="version-switch" id="versionSwitch">
+        <button type="button" class="active" data-version="java">Java</button>
+        <button type="button" data-version="bedrock">Bedrock</button>
+      </div>
+      <div class="input-row">
+        <input id="pseudoInput" type="text" maxlength="16" placeholder="Entre ton pseudo ici">
+        <button class="submit-btn" id="submitVote">→</button>
+      </div>
+      <p class="hint">Le pseudo est pre-rempli pour simplifier ton vote.</p>
+    </div>
+  </div>
+
+  <script src="particles.js?v=20260401-1"></script>
+  <script>
+    const burger = document.getElementById("burger");
+    const navLinks = document.getElementById("navLinks");
+    if (burger && navLinks) {
+      burger.addEventListener("click", () => navLinks.classList.toggle("open"));
+      navLinks.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => navLinks.classList.remove("open"));
+      });
+    }
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    let selectedVersion = "java";
+    let activeVoteUrl = "https://top-serveurs.net/minecraft/vote/terraverse-explorez-un-univers-infinni-survie-i-pvp-i-skyblock-i-oneblock";
+    let modalMode = "vote";
+
+    const storageKey = "terraversePseudo";
+    const backdrop = document.getElementById("voteModalBackdrop");
+    const closeBtn = document.getElementById("closeVoteModal");
+    const pseudoInput = document.getElementById("pseudoInput");
+    const avatarPreview = document.getElementById("avatarPreview");
+    const submitVote = document.getElementById("submitVote");
+    const switchContainer = document.getElementById("versionSwitch");
+    const accountAvatar = document.getElementById("headerAccountAvatar");
+    const accountName = document.getElementById("headerAccountName");
+    const changePseudoBtn = document.getElementById("changePseudoBtn");
+    const rankingList = document.getElementById("rankingList");
+    const rankingNote = document.getElementById("rankingNote");
+    const voteCountKey = "terraverseLocalVoteCount";
+    const voteWeekKey = "terraverseVoteWeekKey";
+    const boostEndKey = "terraverseVoteBoostEndAt";
+    const boostDurationMs = ((7 * 24) + 8) * 60 * 60 * 1000;
+    const TOP_SERVEURS_API_URL = "";
+    const dailyGoalBar = document.getElementById("dailyGoalBar");
+    const dailyGoalText = document.getElementById("dailyGoalText");
+
+    function formatRemaining(ms) {
+      const totalSec = Math.floor(ms / 1000);
+      const days = Math.floor(totalSec / 86400);
+      const hours = Math.floor((totalSec % 86400) / 3600);
+      const minutes = Math.floor((totalSec % 3600) / 60);
+      const seconds = totalSec % 60;
+      return `${days}j ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function getBoostEndAt() {
+      const saved = Number(localStorage.getItem(boostEndKey) || "0");
+      const now = Date.now();
+      if (saved > now) return saved;
+      const next = now + boostDurationMs;
+      localStorage.setItem(boostEndKey, String(next));
+      return next;
+    }
+
+    function updateDailyGoalUI() {
+      const endAt = getBoostEndAt();
+      const now = Date.now();
+      const remaining = Math.max(0, endAt - now);
+      const percent = Math.max(0, Math.min(100, (remaining / boostDurationMs) * 100));
+      dailyGoalBar.style.width = `${percent}%`;
+      dailyGoalText.textContent = `Boost cle vote x3 pendant ${formatRemaining(remaining)}.`;
+
+      if (remaining <= 0) {
+        const restarted = now + boostDurationMs;
+        localStorage.setItem(boostEndKey, String(restarted));
+      }
+    }
+
+    function renderRanking(items) {
+      rankingList.innerHTML = "";
+      items.forEach((item, index) => {
+        const row = document.createElement("div");
+        row.className = "ranking-item";
+        row.innerHTML = `<span>#${index + 1} ${item.name}</span><span>${item.votes} votes</span>`;
+        rankingList.appendChild(row);
+      });
+    }
+
+    function getISOWeekKey(date = new Date()) {
+      const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+      const dayNum = utcDate.getUTCDay() || 7;
+      utcDate.setUTCDate(utcDate.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(utcDate.getUTCFullYear(), 0, 1));
+      const weekNo = Math.ceil((((utcDate - yearStart) / 86400000) + 1) / 7);
+      return `${utcDate.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+    }
+
+    function ensureWeeklyVoteReset() {
+      const currentWeek = getISOWeekKey();
+      const savedWeek = localStorage.getItem(voteWeekKey);
+      if (savedWeek !== currentWeek) {
+        localStorage.setItem(voteWeekKey, currentWeek);
+        localStorage.setItem(voteCountKey, "0");
+      }
+    }
+
+    function getLocalRanking() {
+      ensureWeeklyVoteReset();
+      const pseudo = localStorage.getItem(storageKey) || "Invite";
+      const votes = Number(localStorage.getItem(voteCountKey) || "0");
+      return [
+        { name: pseudo, votes: votes },
+        { name: "BazinziYT", votes: 56 },
+        { name: "Blymax", votes: 56 }
+      ].sort((a, b) => b.votes - a.votes).slice(0, 3);
+    }
+
+    async function loadRanking() {
+      if (!TOP_SERVEURS_API_URL) {
+        renderRanking(getLocalRanking());
+        rankingNote.textContent = "Classement local active. Pour sync Top-Serveurs, il faut une API publique.";
+        return;
+      }
+
+      try {
+        const res = await fetch(TOP_SERVEURS_API_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("API indisponible");
+        const data = await res.json();
+        if (!Array.isArray(data)) throw new Error("Format API invalide");
+        renderRanking(data.slice(0, 3).map(i => ({ name: i.name, votes: Number(i.votes || 0) })));
+        rankingNote.textContent = "Classement synchronise avec Top-Serveurs.";
+      } catch {
+        renderRanking(getLocalRanking());
+        rankingNote.textContent = "API Top-Serveurs inaccessible depuis le navigateur. Classement local affiche.";
+      }
+    }
+
+    function updateAvatar() {
+      const pseudo = pseudoInput.value.trim();
+      avatarPreview.src = pseudo ? `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/64` : "https://mc-heads.net/avatar/Steve/64";
+    }
+
+    function updateStoredAccount() {
+      const pseudo = localStorage.getItem(storageKey);
+      if (!pseudo) {
+        accountName.textContent = "Invite";
+        accountAvatar.src = "https://mc-heads.net/avatar/Steve/48";
+        return;
+      }
+      accountName.textContent = pseudo;
+      accountAvatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/48`;
+    }
+
+    updateStoredAccount();
+
+    document.querySelectorAll(".vote-card").forEach(card => {
+      card.addEventListener("click", (e) => {
+        e.preventDefault();
+        modalMode = "vote";
+        activeVoteUrl = card.dataset.voteUrl;
+        const saved = localStorage.getItem(storageKey) || "";
+        pseudoInput.value = saved;
+        updateAvatar();
+        backdrop.classList.add("open");
+        backdrop.setAttribute("aria-hidden", "false");
+        pseudoInput.focus();
+      });
+    });
+      ensureWeeklyVoteReset();
+
+    switchContainer.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        selectedVersion = btn.dataset.version;
+        switchContainer.querySelectorAll("button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    pseudoInput.addEventListener("input", updateAvatar);
+
+    function closeModal() {
+      backdrop.classList.remove("open");
+      backdrop.setAttribute("aria-hidden", "true");
+    }
+
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+
+    submitVote.addEventListener("click", () => {
+      const pseudo = pseudoInput.value.trim();
+      if (!pseudo) {
+        alert("Entre ton pseudo Minecraft.");
+        return;
+      }
+
+      localStorage.setItem(storageKey, pseudo);
+      updateStoredAccount();
+      const count = Number(localStorage.getItem(voteCountKey) || "0") + 1;
+      if (modalMode === "vote") {
+        localStorage.setItem(voteCountKey, String(count));
+        loadRanking();
+
+        const separator = activeVoteUrl.includes("?") ? "&" : "?";
+        const finalUrl = `${activeVoteUrl}${separator}username=${encodeURIComponent(pseudo)}&version=${encodeURIComponent(selectedVersion)}`;
+        window.open(finalUrl, "_blank", "noopener");
+      }
+      closeModal();
+    });
+
+    changePseudoBtn.addEventListener("click", () => {
+      modalMode = "profile";
+      const saved = localStorage.getItem(storageKey) || "";
+      pseudoInput.value = saved;
+      updateAvatar();
+      backdrop.classList.add("open");
+      backdrop.setAttribute("aria-hidden", "false");
+      pseudoInput.focus();
+    });
+
+    loadRanking();
+    updateDailyGoalUI();
+    setInterval(updateDailyGoalUI, 1000);
+  </script>
+</body>
+</html>
