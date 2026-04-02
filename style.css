@@ -722,41 +722,6 @@ body.shop-page {
     linear-gradient(180deg, #38d7ff 0%, #63ebff 24%, #0f4472 62%, #0b2b4c 100%);
 }
 
-body.home-page header {
-  background: transparent;
-  border-bottom: none;
-  backdrop-filter: none;
-}
-
-body.home-page .nav-container {
-  margin-top: 0.8rem;
-  background: #ffffff;
-  border: 1px solid #e5e8ef;
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(12, 36, 57, 0.18);
-}
-
-body.home-page .nav-logo-text {
-  color: #1f2735;
-}
-
-body.home-page .nav-links a {
-  color: #40485a;
-}
-
-body.home-page .nav-links a:hover {
-  color: #111827;
-}
-
-body.home-page .burger span {
-  background: #2e3746;
-}
-
-body.home-page .btn-jouer {
-  background: linear-gradient(180deg, #b5ff25 0%, #72d113 100%);
-  color: #1f6b12;
-}
-
 body.home-page .hero {
   padding-top: 122px;
 }
@@ -765,23 +730,7 @@ body.shop-page .page-wrap {
   padding-top: 7.4rem;
 }
 
-@media (max-width: 640px) {
-  body.home-page .nav-container {
-    margin-top: 0;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
 
-  body.home-page .nav-links {
-    background: #ffffff;
-    border-bottom: 1px solid #e5e8ef;
-  }
-
-  body.home-page .nav-links a {
-    color: #1f2735;
-  }
-}
 
 /* ============================================
    MODES — ONGLETS
