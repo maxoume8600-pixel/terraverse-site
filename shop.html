@@ -964,7 +964,7 @@
       const selectedProducts = PRODUCTS.filter(product => (currentCart[product.id] || 0) > 0);
       const serverUrl = TEBEX_CONFIG.serverUrls[selectedServer] || TEBEX_CONFIG.storeUrl;
 
-      if (selectedProducts.length === 1 && currentCart[selectedProducts[0].id] === 1) {
+      if (selectedProducts.length === 1) {
         return TEBEX_CONFIG.productUrls[selectedServer]?.[selectedProducts[0].id] || serverUrl;
       }
 
@@ -1016,11 +1016,11 @@
       cartGrandTotal.textContent = euro(rewards.total);
 
       const checkoutUrl = getCheckoutUrl();
-      const directProductCheckout = used.length === 1 && cart[used[0].id] === 1 && checkoutUrl !== (TEBEX_CONFIG.serverUrls[selectedServer] || TEBEX_CONFIG.storeUrl);
+      const directProductCheckout = used.length === 1 && checkoutUrl !== (TEBEX_CONFIG.serverUrls[selectedServer] || TEBEX_CONFIG.storeUrl);
       checkoutNote.textContent = rewards.count === 0
         ? "Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex."
         : directProductCheckout
-          ? "Redirection directe vers le pack Tebex correspondant."
+          ? "Redirection directe vers le pack Tebex correspondant. Si tu as mis plusieurs quantites, Tebex pourra demander de les rechoisir sur place."
           : `Tebex ne pre-remplit pas ce panier automatiquement. Tu seras redirige vers la boutique ${selectedServer || "TerraVerse"} pour finaliser.`;
 
       saveStoredCarts();
