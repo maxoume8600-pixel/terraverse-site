@@ -274,12 +274,6 @@
 
     .shop-content {
       display: grid;
-      grid-template-columns: minmax(0, 1.7fr) 340px;
-      gap: 1rem;
-      align-items: start;
-    }
-    .shop-main {
-      display: grid;
       gap: 1rem;
     }
 
@@ -389,27 +383,99 @@
       line-height: 1.5;
     }
 
-    .cart-summary {
-      position: sticky;
-      top: 6.9rem;
+    .cart-container {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 360px);
+      gap: 1rem;
+      align-items: start;
+    }
+    .cart-left,
+    .cart-right {
       border-radius: 16px;
       background: rgba(8, 18, 31, 0.72);
       border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 1rem;
       backdrop-filter: blur(14px);
       box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
+    }
+    .cart-left h2,
+    .cart-right h2 {
+      margin: 0 0 0.9rem;
+      font-size: 1.15rem;
+    }
+    .cart-empty {
+      border-radius: 12px;
+      padding: 0.95rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      color: rgba(245, 247, 255, 0.62);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .cart-item {
+      border-radius: 14px;
+      padding: 0.95rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       display: grid;
       gap: 0.9rem;
     }
-    .summary-head {
+    .item-info {
       display: flex;
-      align-items: flex-start;
       justify-content: space-between;
       gap: 0.8rem;
+      align-items: flex-start;
     }
-    .summary-head h3 {
-      margin: 0.2rem 0 0;
-      font-size: 1.15rem;
+    .item-info h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      color: #ff8cff;
+    }
+    .item-price {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f5f7ff;
+      white-space: nowrap;
+    }
+    .quantity-selector {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.35rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      width: fit-content;
+    }
+    .quantity-selector button {
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #8cf52d, #65d300);
+      color: #123500;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .quantity-selector span {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 700;
+      color: #f5f7ff;
+    }
+    .cart-bonus {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 0.8rem;
+    }
+    .cart-bonus h4 {
+      margin: 0 0 0.45rem;
+      font-size: 0.9rem;
+    }
+    .bonus-note {
+      color: rgba(245, 247, 255, 0.62);
+      font-size: 0.8rem;
+      line-height: 1.5;
     }
     .summary-count {
       border-radius: 999px;
@@ -419,38 +485,6 @@
       font-size: 0.72rem;
       color: rgba(245, 247, 255, 0.78);
       white-space: nowrap;
-    }
-    .summary-items {
-      display: grid;
-      gap: 0.55rem;
-    }
-    .summary-empty {
-      border-radius: 12px;
-      padding: 0.85rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed rgba(255, 255, 255, 0.16);
-      color: rgba(245, 247, 255, 0.62);
-      font-size: 0.82rem;
-      line-height: 1.5;
-    }
-    .summary-item {
-      border-radius: 12px;
-      padding: 0.75rem 0.8rem;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: grid;
-      gap: 0.22rem;
-    }
-    .summary-item-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.8rem;
-      font-weight: 700;
-      font-size: 0.84rem;
-    }
-    .summary-item-meta {
-      color: rgba(245, 247, 255, 0.65);
-      font-size: 0.75rem;
     }
     .recap-box {
       border-radius: 14px;
@@ -603,8 +637,7 @@
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .server-grid { grid-template-columns: repeat(2, 1fr); }
       .bottom-row { grid-template-columns: 1fr; }
-      .shop-content { grid-template-columns: 1fr; }
-      .cart-summary { position: static; }
+      .cart-container { grid-template-columns: 1fr; }
       .account-mini { display: none; }
     }
     @media (max-width: 640px) {
@@ -711,43 +744,39 @@
       </article>
 
       <div class="shop-content">
-        <div class="shop-main">
-          <div class="product-grid" id="productGrid"></div>
+        <div class="product-grid" id="productGrid"></div>
 
-          <div class="bottom-row">
-            <article class="info-card">
-              <h4>Objectif communautaire</h4>
-              <p>Chaque achat aide a financer les machines, anti-DDoS, developpements et evenements communautaires.</p>
-            </article>
-            <article class="info-card">
-              <h4>Note aux parents</h4>
-              <p>Les achats proposes sont uniquement des contenus virtuels utilises sur notre serveur. Ils ne sont ni obligatoires ni lies a Mojang/Microsoft.</p>
-            </article>
+        <div class="cart-container" id="cartSummary">
+          <div class="cart-left">
+            <h2>Votre panier</h2>
+            <div id="cartLeftContent" class="cart-empty">Choisis un pack ci-dessus pour afficher ton panier.</div>
+          </div>
+
+          <div class="cart-right">
+            <h2>Recapitulatif</h2>
+
+            <div class="recap-box">
+              <div class="recap-line"><span>Quantite</span><strong id="cartCountBadge">0</strong></div>
+              <div class="recap-line"><span>Sous-total</span><strong id="cartSubtotal">0.00 EUR</strong></div>
+              <div class="recap-line"><span>Frais de processeur</span><strong id="cartFees">0.00 EUR</strong></div>
+              <div class="recap-total"><span>Total</span><strong id="cartGrandTotal">0.00 EUR</strong></div>
+            </div>
+
+            <button class="continue-btn checkout-button" id="continueBtn">Continuer vers le paiement</button>
+            <p class="checkout-note" id="checkoutNote">Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex.</p>
           </div>
         </div>
 
-        <aside class="cart-summary" id="cartSummary">
-          <div class="summary-head">
-            <div>
-              <p class="section-kicker" style="margin-bottom:0; text-align:left;">Panier local</p>
-              <h3>Recapitulatif</h3>
-            </div>
-            <span class="summary-count" id="cartCountBadge">0 article</span>
-          </div>
-
-          <div class="summary-items" id="summaryItems">
-            <div class="summary-empty">Ton panier est vide. Choisis un pack pour afficher le recap et les bonus automatiques.</div>
-          </div>
-
-          <div class="recap-box">
-            <div class="recap-line"><span>Sous-total</span><strong id="cartSubtotal">0.00 EUR</strong></div>
-            <div class="recap-line"><span>Frais processeur</span><strong id="cartFees">0.00 EUR</strong></div>
-            <div class="recap-total"><span>Total estime</span><strong id="cartGrandTotal">0.00 EUR</strong></div>
-          </div>
-
-          <button class="continue-btn checkout-button" id="continueBtn">Continuer vers Tebex</button>
-          <p class="checkout-note" id="checkoutNote">Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex.</p>
-        </aside>
+        <div class="bottom-row">
+          <article class="info-card">
+            <h4>Objectif communautaire</h4>
+            <p>Chaque achat aide a financer les machines, anti-DDoS, developpements et evenements communautaires.</p>
+          </article>
+          <article class="info-card">
+            <h4>Note aux parents</h4>
+            <p>Les achats proposes sont uniquement des contenus virtuels utilises sur notre serveur. Ils ne sont ni obligatoires ni lies a Mojang/Microsoft.</p>
+          </article>
+        </div>
       </div>
     </section>
   </main>
@@ -848,8 +877,8 @@
     const serverTabs = document.getElementById("serverTabs");
     const productGrid = document.getElementById("productGrid");
     const cartBadge = document.getElementById("cartBadge");
+    const cartLeftContent = document.getElementById("cartLeftContent");
     const cartCountBadge = document.getElementById("cartCountBadge");
-    const summaryItems = document.getElementById("summaryItems");
     const cartSubtotal = document.getElementById("cartSubtotal");
     const cartFees = document.getElementById("cartFees");
     const cartGrandTotal = document.getElementById("cartGrandTotal");
@@ -983,8 +1012,7 @@
           <div class="product-art">${p.icon}</div>
           <p class="product-name">${p.name}</p>
           <p class="product-price">${euro(p.price)} ${p.oldPrice ? `<small>${euro(p.oldPrice)}</small>` : ""}</p>
-          <button class="add-btn" data-add="${p.id}">Ajouter au panier</button>
-          ${qty > 0 ? `<div class="qty-row"><button class="qty-btn" data-dec="${p.id}">-</button><span class="qty-value">${qty}</span><button class="qty-btn" data-inc="${p.id}">+</button></div>` : ""}
+          <button class="add-btn" data-add="${p.id}">${qty > 0 ? "Selectionne" : "Choisir ce pack"}</button>
         `;
         productGrid.appendChild(card);
       });
@@ -996,21 +1024,36 @@
       const rewards = getCartRewards();
 
       if (!used.length) {
-        summaryItems.innerHTML = `<div class="summary-empty">Ton panier est vide. Ajoute un pack pour afficher le recap detaille et les recompenses.</div>`;
+        cartLeftContent.className = "cart-empty";
+        cartLeftContent.innerHTML = "Choisis un pack ci-dessus pour afficher ton panier.";
       } else {
-        summaryItems.innerHTML = used.map(product => {
-          const qty = cart[product.id];
-          return `
-            <div class="summary-item">
-              <div class="summary-item-top"><span>${product.name}</span><span>${euro(product.price * qty)}</span></div>
-              <div class="summary-item-meta">Quantite: ${qty} x ${euro(product.price)}</div>
+        const product = used[0];
+        const qty = cart[product.id];
+        cartLeftContent.className = "cart-item";
+        cartLeftContent.innerHTML = `
+          <div class="item-info">
+            <div>
+              <h3>${product.name}</h3>
+              <span class="item-price">${euro(product.price)}</span>
             </div>
-          `;
-        }).join("");
+            <span class="summary-count">${qty} article${qty > 1 ? "s" : ""}</span>
+          </div>
+
+          <div class="quantity-selector">
+            <button type="button" data-cart-action="minus">-</button>
+            <span id="quantity">${qty}</span>
+            <button type="button" data-cart-action="plus">+</button>
+          </div>
+
+          <div class="cart-bonus">
+            <h4>Info panier</h4>
+            <p class="bonus-note">La quantite modifie ton total. Le paiement final se fait sur Tebex avec le pack selectionne.</p>
+          </div>
+        `;
       }
 
       cartBadge.textContent = String(rewards.count);
-      cartCountBadge.textContent = `${rewards.count} article${rewards.count > 1 ? "s" : ""}`;
+      cartCountBadge.textContent = String(rewards.count);
       cartSubtotal.textContent = euro(rewards.subtotal);
       cartFees.textContent = euro(rewards.fees);
       cartGrandTotal.textContent = euro(rewards.total);
@@ -1018,10 +1061,10 @@
       const checkoutUrl = getCheckoutUrl();
       const directProductCheckout = used.length === 1 && checkoutUrl !== (TEBEX_CONFIG.serverUrls[selectedServer] || TEBEX_CONFIG.storeUrl);
       checkoutNote.textContent = rewards.count === 0
-        ? "Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex."
+        ? "Selectionne un pack pour preparer ton paiement Tebex."
         : directProductCheckout
-          ? "Redirection directe vers le pack Tebex correspondant. Si tu as mis plusieurs quantites, Tebex pourra demander de les rechoisir sur place."
-          : `Tebex ne pre-remplit pas ce panier automatiquement. Tu seras redirige vers la boutique ${selectedServer || "TerraVerse"} pour finaliser.`;
+          ? "Le recap complet sera affiche avant la redirection finale vers Tebex."
+          : `Le recap complet sera affiche avant la redirection vers la boutique ${selectedServer || "TerraVerse"}.`;
 
       saveStoredCarts();
       renderProducts();
@@ -1029,7 +1072,9 @@
 
     function inc(id) {
       const cart = getCurrentCart();
-      cart[id] = (cart[id] || 0) + 1;
+      const nextQty = (cart[id] || 0) + 1;
+      Object.keys(cart).forEach(key => delete cart[key]);
+      cart[id] = nextQty;
       renderCart();
     }
 
@@ -1044,14 +1089,20 @@
     productGrid.addEventListener("click", (e) => {
       const target = e.target;
       const add = target.getAttribute("data-add");
-      const incId = target.getAttribute("data-inc");
-      const decId = target.getAttribute("data-dec");
 
       if (add) {
         inc(add);
       }
-      if (incId) inc(incId);
-      if (decId) dec(decId);
+    });
+
+    cartLeftContent.addEventListener("click", (e) => {
+      const action = e.target.getAttribute("data-cart-action");
+      const currentCart = getCurrentCart();
+      const currentId = Object.keys(currentCart).find(key => currentCart[key] > 0);
+      if (!currentId) return;
+
+      if (action === "plus") inc(currentId);
+      if (action === "minus") dec(currentId);
     });
 
     document.getElementById("openCartBtn").addEventListener("click", () => {
@@ -1080,10 +1131,11 @@
         subtotal: rewards.subtotal,
         fees: rewards.fees,
         total: rewards.total,
+        checkoutUrl: getCheckoutUrl(),
         updatedAt: Date.now()
       }));
 
-      window.location.href = getCheckoutUrl();
+      window.location.href = "checkout.html";
     });
 
     function openPseudoModal(server) {
