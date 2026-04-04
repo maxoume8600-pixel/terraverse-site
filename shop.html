@@ -150,6 +150,16 @@
       border-color: rgba(0, 229, 255, 0.46);
       box-shadow: 0 12px 26px rgba(0, 229, 255, 0.2);
     }
+    .server-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      filter: saturate(0.7);
+    }
+    .server-card.disabled:hover {
+      transform: none;
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: none;
+    }
     .server-icon {
       width: 82px;
       height: 82px;
@@ -170,6 +180,17 @@
       font-size: 0.8rem;
       color: rgba(245, 247, 255, 0.68);
       text-align: center;
+    }
+    .server-card-status {
+      display: inline-flex;
+      margin-top: 0.45rem;
+      padding: 0.16rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.66rem;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: rgba(245, 247, 255, 0.75);
     }
 
     .shop-panel {
@@ -206,6 +227,10 @@
       color: #041019;
       background: linear-gradient(135deg, #00e5ff, #00ff88);
       border-color: transparent;
+    }
+    .server-tab:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
     }
     .cart-btn {
       border: none;
@@ -245,6 +270,17 @@
     .support-card p {
       font-size: 0.82rem;
       color: rgba(245,247,255,0.75);
+    }
+
+    .shop-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) 340px;
+      gap: 1rem;
+      align-items: start;
+    }
+    .shop-main {
+      display: grid;
+      gap: 1rem;
     }
 
     .product-grid {
@@ -353,83 +389,102 @@
       line-height: 1.5;
     }
 
-    .cart-drawer {
-      position: fixed;
-      top: 0;
-      right: -360px;
-      width: 340px;
-      max-width: 92vw;
-      height: 100vh;
-      background: #f6f7fb;
-      color: #1f2a38;
-      z-index: 1200;
-      box-shadow: -10px 0 30px rgba(0,0,0,0.32);
-      transition: right 0.25s ease;
-      display: flex;
-      flex-direction: column;
-    }
-    .cart-drawer.open { right: 0; }
-    .cart-head {
-      padding: 0.95rem 1rem;
-      border-bottom: 1px solid #dde2ed;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-    }
-    .cart-close {
-      border: none;
-      background: none;
-      font-size: 1.35rem;
-      color: #475466;
-      cursor: pointer;
-    }
-    .cart-body {
-      padding: 0.9rem 1rem;
-      overflow: auto;
-      flex: 1;
+    .cart-summary {
+      position: sticky;
+      top: 6.9rem;
+      border-radius: 16px;
+      background: rgba(8, 18, 31, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 1rem;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
       display: grid;
-      gap: 0.6rem;
-      align-content: start;
+      gap: 0.9rem;
     }
-    .cart-item {
-      border: 1px solid #d8dfea;
-      border-radius: 10px;
-      padding: 0.55rem;
-      background: #fff;
-      display: grid;
-      gap: 0.28rem;
-    }
-    .cart-item-top {
+    .summary-head {
       display: flex;
+      align-items: flex-start;
       justify-content: space-between;
-      font-size: 0.82rem;
-      font-weight: 700;
+      gap: 0.8rem;
     }
-    .cart-qty {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
+    .summary-head h3 {
+      margin: 0.2rem 0 0;
+      font-size: 1.15rem;
     }
-    .cart-qty button {
-      border: 1px solid #c9d1dd;
-      background: #f3f6fb;
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 800;
+    .summary-count {
+      border-radius: 999px;
+      padding: 0.28rem 0.6rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.72rem;
+      color: rgba(245, 247, 255, 0.78);
+      white-space: nowrap;
     }
-    .cart-foot {
-      padding: 0.9rem 1rem 1rem;
-      border-top: 1px solid #dde2ed;
+    .summary-items {
       display: grid;
       gap: 0.55rem;
     }
-    .cart-total {
+    .summary-empty {
+      border-radius: 12px;
+      padding: 0.85rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      color: rgba(245, 247, 255, 0.62);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .summary-item {
+      border-radius: 12px;
+      padding: 0.75rem 0.8rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: grid;
+      gap: 0.22rem;
+    }
+    .summary-item-top {
       display: flex;
       justify-content: space-between;
+      gap: 0.8rem;
       font-weight: 700;
+      font-size: 0.84rem;
+    }
+    .summary-item-meta {
+      color: rgba(245, 247, 255, 0.65);
+      font-size: 0.75rem;
+    }
+    .recap-box {
+      border-radius: 14px;
+      padding: 0.85rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: grid;
+      gap: 0.55rem;
+    }
+    .recap-line,
+    .recap-total {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.8rem;
+      font-size: 0.84rem;
+    }
+    .recap-line {
+      color: rgba(245, 247, 255, 0.72);
+    }
+    .recap-total {
+      padding-top: 0.55rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 800;
+      color: #ffffff;
+      font-size: 0.92rem;
+    }
+    .checkout-button {
+      width: 100%;
+    }
+    .checkout-note {
+      margin: 0;
+      color: rgba(245, 247, 255, 0.58);
+      font-size: 0.76rem;
+      line-height: 1.5;
     }
     .continue-btn {
       border: none;
@@ -548,6 +603,8 @@
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .server-grid { grid-template-columns: repeat(2, 1fr); }
       .bottom-row { grid-template-columns: 1fr; }
+      .shop-content { grid-template-columns: 1fr; }
+      .cart-summary { position: static; }
       .account-mini { display: none; }
     }
     @media (max-width: 640px) {
@@ -616,25 +673,28 @@
       <p>Selectionne le serveur sur lequel tu souhaites faire tes achats.</p>
 
       <div class="server-grid">
-        <a href="#" class="server-card" data-server="Oneblock">
+        <a href="#" class="server-card disabled" data-server="Oneblock" aria-disabled="true">
           <div class="server-icon">🟩</div>
           <h3>Oneblock</h3>
           <p>Mode aventure</p>
+          <span class="server-card-status">Temporairement desactive</span>
         </a>
         <a href="#" class="server-card" data-server="Survie">
           <div class="server-icon">🌲</div>
           <h3>Survie</h3>
           <p>Economies et quetes</p>
         </a>
-        <a href="#" class="server-card" data-server="PvP">
+        <a href="#" class="server-card disabled" data-server="PvP" aria-disabled="true">
           <div class="server-icon">🌍</div>
           <h3>PvP</h3>
           <p>Carte monde</p>
+          <span class="server-card-status">Temporairement desactive</span>
         </a>
-        <a href="#" class="server-card" data-server="Skyblock">
+        <a href="#" class="server-card disabled" data-server="Skyblock" aria-disabled="true">
           <div class="server-icon">☁️</div>
           <h3>Skyblock</h3>
           <p>Iles flottantes</p>
+          <span class="server-card-status">Temporairement desactive</span>
         </a>
       </div>
     </section>
@@ -642,7 +702,7 @@
     <section class="shop-panel" id="shopPanel">
       <div class="shop-top">
         <div class="server-tabs" id="serverTabs"></div>
-        <button class="cart-btn" id="openCartBtn">Panier <span class="cart-badge" id="cartBadge">0</span></button>
+        <button class="cart-btn" id="openCartBtn">Voir le recap <span class="cart-badge" id="cartBadge">0</span></button>
       </div>
 
       <article class="support-card" style="margin-bottom:1rem;">
@@ -650,17 +710,44 @@
         <p><strong>Sav3ge_</strong> est le meilleur acheteur du mois.</p>
       </article>
 
-      <div class="product-grid" id="productGrid"></div>
+      <div class="shop-content">
+        <div class="shop-main">
+          <div class="product-grid" id="productGrid"></div>
 
-      <div class="bottom-row">
-        <article class="info-card">
-          <h4>Objectif communautaire</h4>
-          <p>Chaque achat aide a financer les machines, anti-DDoS, developpements et evenements communautaires.</p>
-        </article>
-        <article class="info-card">
-          <h4>Note aux parents</h4>
-          <p>Les achats proposes sont uniquement des contenus virtuels utilises sur notre serveur. Ils ne sont ni obligatoires ni lies a Mojang/Microsoft.</p>
-        </article>
+          <div class="bottom-row">
+            <article class="info-card">
+              <h4>Objectif communautaire</h4>
+              <p>Chaque achat aide a financer les machines, anti-DDoS, developpements et evenements communautaires.</p>
+            </article>
+            <article class="info-card">
+              <h4>Note aux parents</h4>
+              <p>Les achats proposes sont uniquement des contenus virtuels utilises sur notre serveur. Ils ne sont ni obligatoires ni lies a Mojang/Microsoft.</p>
+            </article>
+          </div>
+        </div>
+
+        <aside class="cart-summary" id="cartSummary">
+          <div class="summary-head">
+            <div>
+              <p class="section-kicker" style="margin-bottom:0; text-align:left;">Panier local</p>
+              <h3>Recapitulatif</h3>
+            </div>
+            <span class="summary-count" id="cartCountBadge">0 article</span>
+          </div>
+
+          <div class="summary-items" id="summaryItems">
+            <div class="summary-empty">Ton panier est vide. Choisis un pack pour afficher le recap et les bonus automatiques.</div>
+          </div>
+
+          <div class="recap-box">
+            <div class="recap-line"><span>Sous-total</span><strong id="cartSubtotal">0.00 EUR</strong></div>
+            <div class="recap-line"><span>Frais processeur</span><strong id="cartFees">0.00 EUR</strong></div>
+            <div class="recap-total"><span>Total estime</span><strong id="cartGrandTotal">0.00 EUR</strong></div>
+          </div>
+
+          <button class="continue-btn checkout-button" id="continueBtn">Continuer vers Tebex</button>
+          <p class="checkout-note" id="checkoutNote">Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex.</p>
+        </aside>
       </div>
     </section>
   </main>
@@ -677,19 +764,6 @@
       <p>© <span id="year"></span> TerraVerse Network - Tous droits reserves.</p>
     </div>
   </footer>
-
-  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
-    <div class="cart-head">
-      <span>Votre panier - <span id="cartServerLabel">Survie</span></span>
-      <button class="cart-close" id="closeCartBtn">×</button>
-    </div>
-    <div class="cart-body" id="cartBody"></div>
-    <div class="cart-foot">
-      <div class="cart-total"><span>Total</span><span id="cartTotal">0.00 EUR</span></div>
-      <button class="continue-btn" id="continueBtn">Continuer</button>
-      <span class="muted" id="cartCountText">0 article</span>
-    </div>
-  </aside>
 
   <div class="modal-backdrop" id="shopModalBackdrop" aria-hidden="true">
     <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="shopModalTitle">
@@ -711,15 +785,49 @@
   <script src="particles.js?v=20260401-1"></script>
   <script>
     const PRODUCTS = [
-      { id: "gems15", tag: "", icon: "💎", name: "15.000 Gems", price: 14.99, oldPrice: null },
-      { id: "gems35", tag: "Ideal pour commencer", icon: "💎", name: "35.000 Gems", price: 29.99, oldPrice: 31.55 },
-      { id: "gems80", tag: "Le plus populaire", icon: "💎", name: "80.000 Gems", price: 59.99, oldPrice: 67.52 },
-      { id: "gems150", tag: "Le plus rentable", icon: "💎", name: "150.000 Gems", price: 99.97, oldPrice: 188.83 }
+      { id: "gems500", tag: "Starter", icon: "💎", name: "500 Gems", price: 2.99, oldPrice: null, command: "geco add {username} 500 Gems" },
+      { id: "gems1200", tag: "Petit boost", icon: "💎", name: "1.200 Gems", price: 5.49, oldPrice: null, command: "geco add {username} 1200 Gems" },
+      { id: "gems2500", tag: "Equilibre", icon: "💎", name: "2.500 Gems", price: 9.99, oldPrice: null, command: "geco add {username} 2500 Gems" },
+      { id: "gems5000", tag: "Bon plan", icon: "💎", name: "5.000 Gems", price: 18.99, oldPrice: null, command: "geco add {username} 5000 Gems" },
+      { id: "gems10000", tag: "Le plus populaire", icon: "💎", name: "10.000 Gems", price: 34.99, oldPrice: null, command: "geco add {username} 10000 Gems" },
+      { id: "gems20000", tag: "Le plus rentable", icon: "💎", name: "20.000 Gems", price: 59.99, oldPrice: null, command: "geco add {username} 20000 Gems" }
+    ];
+
+    const TEBEX_CONFIG = {
+      storeUrl: "https://terraverse-shop.tebex.io",
+      serverUrls: {
+        Oneblock: "https://terraverse-shop.tebex.io",
+        Survie: "https://terraverse-shop.tebex.io",
+        PvP: "https://terraverse-shop.tebex.io",
+        Skyblock: "https://terraverse-shop.tebex.io"
+      },
+      productUrls: {
+        Oneblock: {},
+        Survie: {
+          gems500: "https://terraverse-shop.tebex.io/package/7375107",
+          gems1200: "https://terraverse-shop.tebex.io/package/7375110",
+          gems2500: "https://terraverse-shop.tebex.io/package/7375140",
+          gems5000: "https://terraverse-shop.tebex.io/package/7375142",
+          gems10000: "https://terraverse-shop.tebex.io/package/7375143",
+          gems20000: "https://terraverse-shop.tebex.io/package/7375145"
+        },
+        PvP: {},
+        Skyblock: {}
+      }
+    };
+
+    const SERVER_OPTIONS = [
+      { name: "Oneblock", enabled: false },
+      { name: "Survie", enabled: true },
+      { name: "PvP", enabled: false },
+      { name: "Skyblock", enabled: false }
     ];
 
     const STORAGE_PSEUDO = "terraversePseudo";
     const STORAGE_SERVER = "terraverseShopServer";
     const STORAGE_VERSION = "terraverseShopVersion";
+    const STORAGE_CARTS = "terraverseShopCarts";
+    const STORAGE_CHECKOUT = "terraversePendingCheckout";
 
     const burger = document.getElementById("burger");
     const navLinks = document.getElementById("navLinks");
@@ -733,18 +841,20 @@
     let selectedVersion = localStorage.getItem(STORAGE_VERSION) || "java";
     let selectedServer = localStorage.getItem(STORAGE_SERVER) || "";
     let modalMode = "shop";
-    let cart = {};
+    let carts = loadStoredCarts();
 
     const serverSelect = document.getElementById("serverSelect");
     const shopPanel = document.getElementById("shopPanel");
     const serverTabs = document.getElementById("serverTabs");
     const productGrid = document.getElementById("productGrid");
-    const cartDrawer = document.getElementById("cartDrawer");
-    const cartBody = document.getElementById("cartBody");
-    const cartTotal = document.getElementById("cartTotal");
     const cartBadge = document.getElementById("cartBadge");
-    const cartCountText = document.getElementById("cartCountText");
-    const cartServerLabel = document.getElementById("cartServerLabel");
+    const cartCountBadge = document.getElementById("cartCountBadge");
+    const summaryItems = document.getElementById("summaryItems");
+    const cartSubtotal = document.getElementById("cartSubtotal");
+    const cartFees = document.getElementById("cartFees");
+    const cartGrandTotal = document.getElementById("cartGrandTotal");
+    const checkoutNote = document.getElementById("checkoutNote");
+    const cartSummary = document.getElementById("cartSummary");
 
 
     const backdrop = document.getElementById("shopModalBackdrop");
@@ -760,6 +870,33 @@
 
     function euro(v) {
       return `${v.toFixed(2)} EUR`;
+    }
+
+    function loadStoredCarts() {
+      try {
+        const raw = localStorage.getItem(STORAGE_CARTS);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveStoredCarts() {
+      localStorage.setItem(STORAGE_CARTS, JSON.stringify(carts));
+    }
+
+    function isServerEnabled(server) {
+      return SERVER_OPTIONS.some(option => option.name === server && option.enabled);
+    }
+
+    function getCurrentCart() {
+      if (!selectedServer) return {};
+      if (!carts[selectedServer] || typeof carts[selectedServer] !== "object") {
+        carts[selectedServer] = {};
+      }
+      return carts[selectedServer];
     }
 
     function updateAvatar() {
@@ -779,33 +916,63 @@
     }
 
     function setServer(server) {
+      if (!isServerEnabled(server)) return;
       selectedServer = server;
       localStorage.setItem(STORAGE_SERVER, server);
-      cartServerLabel.textContent = server;
       renderTabs();
+      renderCart();
     }
 
     function renderTabs() {
-      const servers = ["Oneblock", "Survie", "PvP", "Skyblock"];
       serverTabs.innerHTML = "";
-      servers.forEach(s => {
+      SERVER_OPTIONS.forEach(({ name, enabled }) => {
         const btn = document.createElement("button");
-        btn.className = `server-tab ${s === selectedServer ? "active" : ""}`;
-        btn.textContent = s;
-        btn.addEventListener("click", () => setServer(s));
+        btn.className = `server-tab ${name === selectedServer ? "active" : ""}`;
+        btn.textContent = name;
+        btn.disabled = !enabled;
+        if (enabled) {
+          btn.addEventListener("click", () => setServer(name));
+        }
         serverTabs.appendChild(btn);
       });
     }
 
     function getTotal() {
+      const cart = getCurrentCart();
       return PRODUCTS.reduce((sum, p) => sum + (cart[p.id] || 0) * p.price, 0);
     }
 
     function getCount() {
-      return Object.values(cart).reduce((a, b) => a + b, 0);
+      return Object.values(getCurrentCart()).reduce((a, b) => a + b, 0);
+    }
+
+    function getCartRewards() {
+      const count = getCount();
+      const subtotal = getTotal();
+      const fees = subtotal > 0 ? subtotal * 0.045 : 0;
+
+      return {
+        count,
+        subtotal,
+        fees,
+        total: subtotal + fees
+      };
+    }
+
+    function getCheckoutUrl() {
+      const currentCart = getCurrentCart();
+      const selectedProducts = PRODUCTS.filter(product => (currentCart[product.id] || 0) > 0);
+      const serverUrl = TEBEX_CONFIG.serverUrls[selectedServer] || TEBEX_CONFIG.storeUrl;
+
+      if (selectedProducts.length === 1 && currentCart[selectedProducts[0].id] === 1) {
+        return TEBEX_CONFIG.productUrls[selectedServer]?.[selectedProducts[0].id] || serverUrl;
+      }
+
+      return serverUrl;
     }
 
     function renderProducts() {
+      const cart = getCurrentCart();
       productGrid.innerHTML = "";
       PRODUCTS.forEach(p => {
         const qty = cart[p.id] || 0;
@@ -824,43 +991,50 @@
     }
 
     function renderCart() {
-      cartBody.innerHTML = "";
+      const cart = getCurrentCart();
       const used = PRODUCTS.filter(p => (cart[p.id] || 0) > 0);
+      const rewards = getCartRewards();
 
       if (!used.length) {
-        cartBody.innerHTML = `<p class="muted">Ton panier est vide.</p>`;
+        summaryItems.innerHTML = `<div class="summary-empty">Ton panier est vide. Ajoute un pack pour afficher le recap detaille et les recompenses.</div>`;
       } else {
-        used.forEach(p => {
-          const qty = cart[p.id];
-          const item = document.createElement("div");
-          item.className = "cart-item";
-          item.innerHTML = `
-            <div class="cart-item-top"><span>${p.name}</span><span>${euro(p.price * qty)}</span></div>
-            <div class="cart-qty">
-              <button data-dec="${p.id}">-</button>
-              <strong>${qty}</strong>
-              <button data-inc="${p.id}">+</button>
+        summaryItems.innerHTML = used.map(product => {
+          const qty = cart[product.id];
+          return `
+            <div class="summary-item">
+              <div class="summary-item-top"><span>${product.name}</span><span>${euro(product.price * qty)}</span></div>
+              <div class="summary-item-meta">Quantite: ${qty} x ${euro(product.price)}</div>
             </div>
           `;
-          cartBody.appendChild(item);
-        });
+        }).join("");
       }
 
-      const count = getCount();
-      const total = getTotal();
-      cartBadge.textContent = String(count);
-      cartCountText.textContent = `${count} article${count > 1 ? "s" : ""}`;
-      cartTotal.textContent = euro(total);
+      cartBadge.textContent = String(rewards.count);
+      cartCountBadge.textContent = `${rewards.count} article${rewards.count > 1 ? "s" : ""}`;
+      cartSubtotal.textContent = euro(rewards.subtotal);
+      cartFees.textContent = euro(rewards.fees);
+      cartGrandTotal.textContent = euro(rewards.total);
 
+      const checkoutUrl = getCheckoutUrl();
+      const directProductCheckout = used.length === 1 && cart[used[0].id] === 1 && checkoutUrl !== (TEBEX_CONFIG.serverUrls[selectedServer] || TEBEX_CONFIG.storeUrl);
+      checkoutNote.textContent = rewards.count === 0
+        ? "Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex."
+        : directProductCheckout
+          ? "Redirection directe vers le pack Tebex correspondant."
+          : `Tebex ne pre-remplit pas ce panier automatiquement. Tu seras redirige vers la boutique ${selectedServer || "TerraVerse"} pour finaliser.`;
+
+      saveStoredCarts();
       renderProducts();
     }
 
     function inc(id) {
+      const cart = getCurrentCart();
       cart[id] = (cart[id] || 0) + 1;
       renderCart();
     }
 
     function dec(id) {
+      const cart = getCurrentCart();
       if (!cart[id]) return;
       cart[id] -= 1;
       if (cart[id] <= 0) delete cart[id];
@@ -868,45 +1042,52 @@
     }
 
     productGrid.addEventListener("click", (e) => {
-      const add = e.target.getAttribute("data-add");
-      const incId = e.target.getAttribute("data-inc");
-      const decId = e.target.getAttribute("data-dec");
+      const target = e.target;
+      const add = target.getAttribute("data-add");
+      const incId = target.getAttribute("data-inc");
+      const decId = target.getAttribute("data-dec");
 
       if (add) {
         inc(add);
-        cartDrawer.classList.add("open");
-        cartDrawer.setAttribute("aria-hidden", "false");
       }
-      if (incId) inc(incId);
-      if (decId) dec(decId);
-    });
-
-    cartBody.addEventListener("click", (e) => {
-      const incId = e.target.getAttribute("data-inc");
-      const decId = e.target.getAttribute("data-dec");
       if (incId) inc(incId);
       if (decId) dec(decId);
     });
 
     document.getElementById("openCartBtn").addEventListener("click", () => {
-      cartDrawer.classList.add("open");
-      cartDrawer.setAttribute("aria-hidden", "false");
-    });
-
-    document.getElementById("closeCartBtn").addEventListener("click", () => {
-      cartDrawer.classList.remove("open");
-      cartDrawer.setAttribute("aria-hidden", "true");
+      cartSummary.scrollIntoView({ behavior: "smooth", block: "start" });
     });
 
     document.getElementById("continueBtn").addEventListener("click", () => {
-      if (getCount() === 0) {
+      const rewards = getCartRewards();
+      if (rewards.count === 0) {
         alert("Ton panier est vide.");
         return;
       }
-      alert(`Paiement demo: ${getCount()} article(s) pour ${euro(getTotal())}.`);
+
+      localStorage.setItem(STORAGE_CHECKOUT, JSON.stringify({
+        server: selectedServer,
+        pseudo: localStorage.getItem(STORAGE_PSEUDO) || "",
+        version: selectedVersion,
+        items: getCurrentCart(),
+        lines: PRODUCTS.filter(product => (getCurrentCart()[product.id] || 0) > 0).map(product => ({
+          id: product.id,
+          name: product.name,
+          quantity: getCurrentCart()[product.id],
+          unitPrice: product.price,
+          command: product.command.replace("{username}", localStorage.getItem(STORAGE_PSEUDO) || "{username}")
+        })),
+        subtotal: rewards.subtotal,
+        fees: rewards.fees,
+        total: rewards.total,
+        updatedAt: Date.now()
+      }));
+
+      window.location.href = getCheckoutUrl();
     });
 
     function openPseudoModal(server) {
+      if (!isServerEnabled(server)) return;
       modalMode = "shop";
       setServer(server);
       serverTarget.textContent = `Serveur: ${server}`;
@@ -921,6 +1102,7 @@
     document.querySelectorAll(".server-card").forEach(card => {
       card.addEventListener("click", (e) => {
         e.preventDefault();
+        if (card.classList.contains("disabled")) return;
         openPseudoModal(card.dataset.server);
       });
     });
@@ -979,12 +1161,16 @@
 
     updateAccountHeader();
 
+    if (!isServerEnabled(selectedServer)) {
+      selectedServer = "";
+      localStorage.removeItem(STORAGE_SERVER);
+    }
+
     if (selectedServer && localStorage.getItem(STORAGE_PSEUDO)) {
       serverSelect.style.display = "none";
       shopPanel.classList.add("active");
       renderTabs();
       renderCart();
-      cartServerLabel.textContent = selectedServer;
     }
   </script>
 </body>
