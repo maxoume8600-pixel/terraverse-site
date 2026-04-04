@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - TerraVerse Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Checkout TerraVerse - Verifie ton panier avant de finaliser sur Tebex.">
+  <link rel="icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260401-1">
+  <style>
+    body.checkout-page {
+      background: linear-gradient(180deg, #1fc0f1 0%, #4fd3f5 100%);
+      min-height: 100vh;
+      color: #243041;
+    }
+    .checkout-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+      position: relative;
+      z-index: 1;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: rgba(36, 48, 65, 0.74);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .checkout-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+      background: rgba(255, 255, 255, 0.94);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 18px 48px rgba(3, 31, 48, 0.18);
+      min-height: 640px;
+    }
+    .checkout-left,
+    .checkout-right {
+      padding: 2rem 2.2rem;
+    }
+    .checkout-left {
+      border-right: 1px solid rgba(36, 48, 65, 0.12);
+    }
+    .checkout-title {
+      font-size: 2rem;
+      margin: 0 0 1.5rem;
+      color: #243041;
+    }
+    .cart-card,
+    .goal-card,
+    .account-card,
+    .payment-box,
+    .coupon-box {
+      background: #ffffff;
+      border: 1px solid rgba(36, 48, 65, 0.12);
+      border-radius: 16px;
+    }
+    .cart-card {
+      padding: 1rem 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+    }
+    .cart-card-main {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      min-width: 0;
+    }
+    .cart-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 1.65rem;
+      background: linear-gradient(135deg, #e25cff, #8f4fff);
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .cart-card-main h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: #243041;
+    }
+    .cart-card-main p {
+      margin: 0.18rem 0 0;
+      color: rgba(36, 48, 65, 0.72);
+      font-weight: 600;
+    }
+    .quantity-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem;
+      border-radius: 12px;
+      background: #f5f7fb;
+      border: 1px solid rgba(36, 48, 65, 0.08);
+    }
+    .quantity-box button {
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #243041;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(36, 48, 65, 0.08);
+    }
+    .quantity-box span {
+      min-width: 24px;
+      text-align: center;
+      font-weight: 700;
+      color: #243041;
+    }
+    .section-label {
+      margin: 0 0 0.8rem;
+      font-size: 1.35rem;
+      color: #243041;
+    }
+    .goal-stack {
+      display: grid;
+      gap: 0.8rem;
+    }
+    .goal-card {
+      padding: 0.95rem 1rem;
+      display: flex;
+      gap: 0.85rem;
+      align-items: center;
+    }
+    .goal-card.off {
+      opacity: 0.62;
+    }
+    .goal-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: #fff7e8;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+    .goal-card strong {
+      display: block;
+      color: #243041;
+      font-size: 1rem;
+    }
+    .goal-card span {
+      color: rgba(36, 48, 65, 0.68);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .goal-card small {
+      display: block;
+      margin-top: 0.16rem;
+      color: rgba(36, 48, 65, 0.58);
+      font-size: 0.78rem;
+    }
+    .checkout-right h2 {
+      margin: 0 0 1rem;
+      font-size: 2rem;
+      color: #243041;
+    }
+    .coupon-box {
+      padding: 0.8rem 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+      color: rgba(36, 48, 65, 0.62);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .coupon-box strong {
+      color: rgba(36, 48, 65, 0.52);
+      font-size: 0.84rem;
+    }
+    .recap-lines {
+      display: grid;
+      gap: 0.65rem;
+      margin-bottom: 1.8rem;
+    }
+    .line-row,
+    .line-total {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .line-row {
+      color: rgba(36, 48, 65, 0.72);
+    }
+    .line-total {
+      color: #243041;
+      font-weight: 800;
+      font-size: 1.05rem;
+      padding-top: 0.4rem;
+    }
+    .send-title,
+    .payment-title {
+      margin: 0 0 0.9rem;
+      font-size: 1.6rem;
+      color: #243041;
+    }
+    .account-card {
+      padding: 1rem;
+      display: flex;
+      gap: 0.9rem;
+      align-items: center;
+      margin-bottom: 1.8rem;
+    }
+    .account-card img {
+      width: 62px;
+      height: 62px;
+      border-radius: 14px;
+      flex-shrink: 0;
+    }
+    .account-card strong {
+      display: block;
+      font-size: 1rem;
+      color: #243041;
+      margin-bottom: 0.2rem;
+    }
+    .account-card p {
+      margin: 0;
+      color: rgba(36, 48, 65, 0.6);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+    .change-link {
+      display: inline-block;
+      margin-top: 0.35rem;
+      color: #243041;
+      font-size: 0.8rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .payment-box {
+      padding: 1rem;
+    }
+    .payment-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+      margin-bottom: 0.9rem;
+    }
+    .payment-pill {
+      height: 46px;
+      border-radius: 12px;
+      border: 1px solid rgba(36, 48, 65, 0.16);
+      background: #fff;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      color: #243041;
+    }
+    .payment-pill.active {
+      background: #edf6ff;
+      border-color: #8da8ff;
+    }
+    .terms-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.55rem;
+      color: rgba(36, 48, 65, 0.62);
+      font-size: 0.74rem;
+      line-height: 1.4;
+      margin-bottom: 0.9rem;
+    }
+    .pay-btn {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 0.95rem 1rem;
+      background: linear-gradient(180deg, #b8ff12 0%, #86ef00 100%);
+      color: #2d5a00;
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+    }
+    .warning {
+      margin-top: 0.8rem;
+      color: #9a4d00;
+      background: #fff2df;
+      border: 1px solid #ffd19d;
+      border-radius: 12px;
+      padding: 0.8rem 0.9rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+    @media (max-width: 960px) {
+      .checkout-shell {
+        grid-template-columns: 1fr;
+      }
+      .checkout-left {
+        border-right: none;
+        border-bottom: 1px solid rgba(36, 48, 65, 0.12);
+      }
+    }
+  </style>
+</head>
+<body class="checkout-page">
+  <main class="checkout-wrap">
+    <a href="shop.html" class="back-link">↶ Continuer mes achats</a>
+
+    <section class="checkout-shell">
+      <div class="checkout-left">
+        <h1 class="checkout-title">Votre panier</h1>
+
+        <div id="cartItemCard" class="cart-empty">Aucun panier en cours. Retourne sur la boutique pour choisir un pack.</div>
+
+      </div>
+
+      <div class="checkout-right">
+        <h2>Recapitulatif</h2>
+
+        <div class="coupon-box">
+          <span>🎟️ Code de reduction</span>
+          <strong>Appliquer</strong>
+        </div>
+
+        <div class="recap-lines">
+          <div class="line-row"><span>Sous total</span><strong id="subtotalValue">0.00 EUR</strong></div>
+          <div class="line-row"><span>Frais de processeur de paiement</span><strong id="feesValue">0.00 EUR</strong></div>
+          <div class="line-total"><span>Total</span><strong id="totalValue">0.00 EUR</strong></div>
+        </div>
+
+        <h3 class="send-title">Envoyer sur le serveur <span id="serverName">Survie</span></h3>
+
+        <div class="account-card">
+          <img id="accountAvatar" src="https://mc-heads.net/avatar/Steve/64" alt="Compte">
+          <div>
+            <strong id="accountPseudo">Invite</strong>
+            <p>Les objets que vous achetez aujourd'hui sont non transferables, non remboursables, et seront ajoutes au compte <span id="accountPseudoInline">Invite</span>.</p>
+            <a href="shop.html" class="change-link">Changer de compte</a>
+          </div>
+        </div>
+
+        <h3 class="payment-title">Paiement</h3>
+
+        <div class="payment-box">
+          <div class="payment-options">
+            <div class="payment-pill active">PayPal</div>
+            <div class="payment-pill">VISA Mastercard</div>
+          </div>
+
+          <label class="terms-row">
+            <input type="checkbox" id="termsCheck">
+            <span>J'accepte immediatement les Conditions Generales de Ventes et renonce a tout droit de retractation.</span>
+          </label>
+
+          <button id="payBtn" class="pay-btn">Payer 0.00 EUR avec PayPal</button>
+
+          <div id="quantityWarning" class="warning" style="display:none;"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_CHECKOUT = "terraversePendingCheckout";
+    const STORAGE_CARTS = "terraverseShopCarts";
+    const STORAGE_SERVER = "terraverseShopServer";
+
+    function euro(value) {
+      return `${value.toFixed(2)} EUR`;
+    }
+
+    function loadCheckout() {
+      try {
+        const raw = localStorage.getItem(STORAGE_CHECKOUT);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function saveCheckout(data) {
+      localStorage.setItem(STORAGE_CHECKOUT, JSON.stringify(data));
+    }
+
+    function saveCartQuantity(server, productId, quantity) {
+      try {
+        const raw = localStorage.getItem(STORAGE_CARTS);
+        const carts = raw ? JSON.parse(raw) : {};
+        carts[server] = { [productId]: quantity };
+        localStorage.setItem(STORAGE_CARTS, JSON.stringify(carts));
+        localStorage.setItem(STORAGE_SERVER, server);
+      } catch {
+        // Ignore localStorage sync failures in checkout view.
+      }
+    }
+
+    function computeTotals(item) {
+      const subtotal = item.unitPrice * item.quantity;
+      const fees = subtotal * 0.045;
+      return {
+        subtotal,
+        fees,
+        total: subtotal + fees
+      };
+    }
+
+    const state = loadCheckout();
+
+    if (!state || !Array.isArray(state.lines) || !state.lines.length) {
+      document.getElementById("cartItemCard").textContent = "Aucun panier en cours. Retourne sur la boutique pour choisir un pack.";
+      document.getElementById("payBtn").disabled = true;
+      document.getElementById("payBtn").textContent = "Panier vide";
+    } else {
+      const item = state.lines[0];
+      const productUrl = state.checkoutUrl || "https://terraverse-shop.tebex.io";
+      const avatarUrl = state.pseudo ? `https://mc-heads.net/avatar/${encodeURIComponent(state.pseudo)}/64` : "https://mc-heads.net/avatar/Steve/64";
+
+      document.getElementById("serverName").textContent = state.server || "Survie";
+      document.getElementById("accountPseudo").textContent = state.pseudo || "Invite";
+      document.getElementById("accountPseudoInline").textContent = state.pseudo || "Invite";
+      document.getElementById("accountAvatar").src = avatarUrl;
+
+      const card = document.getElementById("cartItemCard");
+      card.className = "cart-card";
+
+      function render() {
+        const totals = computeTotals(item);
+        card.innerHTML = `
+          <div class="cart-card-main">
+            <div class="cart-icon">💎</div>
+            <div>
+              <h2>${item.name}</h2>
+              <p>${euro(item.unitPrice)}</p>
+            </div>
+          </div>
+
+          <div class="quantity-box">
+            <button type="button" id="minusBtn">-</button>
+            <span id="quantityValue">${item.quantity}</span>
+            <button type="button" id="plusBtn">+</button>
+          </div>
+        `;
+
+        document.getElementById("subtotalValue").textContent = euro(totals.subtotal);
+        document.getElementById("feesValue").textContent = euro(totals.fees);
+        document.getElementById("totalValue").textContent = euro(totals.total);
+        document.getElementById("payBtn").textContent = `Payer ${euro(totals.total)} avec PayPal`;
+
+        const warning = document.getElementById("quantityWarning");
+        if (item.quantity > 1) {
+          warning.style.display = "block";
+          warning.textContent = `Tu as choisi ${item.quantity} exemplaires sur le site. Cette quantite est visible ici, mais Tebex peut demander de la reverifier sur la page finale.`;
+        } else {
+          warning.style.display = "none";
+          warning.textContent = "";
+        }
+
+        document.getElementById("minusBtn").addEventListener("click", () => {
+          if (item.quantity > 1) {
+            item.quantity -= 1;
+            state.items[item.id] = item.quantity;
+            const updatedTotals = computeTotals(item);
+            saveCartQuantity(state.server, item.id, item.quantity);
+            saveCheckout({ ...state, items: { [item.id]: item.quantity }, lines: [{ ...item }], subtotal: updatedTotals.subtotal, fees: updatedTotals.fees, total: updatedTotals.total });
+            render();
+          }
+        });
+
+        document.getElementById("plusBtn").addEventListener("click", () => {
+          item.quantity += 1;
+          state.items[item.id] = item.quantity;
+          const updatedTotals = computeTotals(item);
+          saveCartQuantity(state.server, item.id, item.quantity);
+          saveCheckout({ ...state, items: { [item.id]: item.quantity }, lines: [{ ...item }], subtotal: updatedTotals.subtotal, fees: updatedTotals.fees, total: updatedTotals.total });
+          render();
+        });
+      }
+
+      render();
+
+      document.getElementById("payBtn").addEventListener("click", () => {
+        if (!document.getElementById("termsCheck").checked) {
+          alert("Tu dois accepter les conditions avant de continuer.");
+          return;
+        }
+
+        window.location.href = productUrl;
+      });
+    }
+  </script>
+</body>
+</html>
