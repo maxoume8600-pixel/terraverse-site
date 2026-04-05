@@ -16,70 +16,6 @@
       max-width: 1200px;
       margin: 0 auto;
     }
-    .shop-hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 1.4rem;
-    }
-    .shop-hero-card {
-      border-radius: 16px;
-      padding: 1rem 1rem 0.95rem;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      text-decoration: none;
-      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
-      min-height: 132px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      position: relative;
-      overflow: hidden;
-    }
-    .shop-hero-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.35);
-      box-shadow: 0 16px 28px rgba(0, 0, 0, 0.26);
-    }
-    .shop-hero-card h2 {
-      margin: 0;
-      font-size: 1.6rem;
-      line-height: 1;
-      letter-spacing: 0.02em;
-    }
-    .shop-hero-card span {
-      margin-top: 0.45rem;
-      color: rgba(255, 255, 255, 0.86);
-      font-size: 0.78rem;
-      line-height: 1.4;
-    }
-    .shop-hero-kicker {
-      font-size: 0.64rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      margin-bottom: 0.55rem;
-      font-weight: 700;
-      color: rgba(255, 255, 255, 0.82);
-    }
-    .shop-hero-boutique {
-      background: linear-gradient(140deg, #ffcb52 0%, #ff9f3f 44%, #e46834 100%);
-      color: #fff;
-    }
-    .shop-hero-play {
-      background: linear-gradient(145deg, #93ff35 0%, #4fc206 100%);
-      color: #183e07;
-    }
-    .shop-hero-play .shop-hero-kicker,
-    .shop-hero-play span {
-      color: rgba(24, 62, 7, 0.78);
-    }
-    .shop-hero-vote {
-      background: linear-gradient(145deg, #39c9ff 0%, #0f75ff 100%);
-      color: #fff;
-    }
-    .shop-hero-discord {
-      background: linear-gradient(145deg, #8f8fff 0%, #5c67e6 100%);
-      color: #fff;
-    }
     .account-mini {
       display: flex;
       align-items: center;
@@ -758,14 +694,12 @@
     }
 
     @media (max-width: 960px) {
-      .shop-hero-grid { grid-template-columns: 1fr 1fr; }
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .server-grid { grid-template-columns: repeat(2, 1fr); }
       .bottom-row { grid-template-columns: 1fr; }
       .account-mini { display: none; }
     }
     @media (max-width: 640px) {
-      .shop-hero-grid { grid-template-columns: 1fr; }
       .cart-btn-label { display: none; }
     }
   </style>
@@ -808,29 +742,6 @@
   </header>
 
   <main class="page-wrap">
-    <section class="shop-hero-grid" aria-label="Acces rapide">
-      <a class="shop-hero-card shop-hero-boutique" href="shop.html">
-        <p class="shop-hero-kicker">SOUTENIR</p>
-        <h2>BOUTIQUE</h2>
-        <span>Packs, gems et avantages serveur</span>
-      </a>
-      <a class="shop-hero-card shop-hero-play" href="index.html#howto">
-        <p class="shop-hero-kicker">COMMENCER</p>
-        <h2>JOUER</h2>
-        <span>Rejoins TerraVerse en Java et Bedrock</span>
-      </a>
-      <a class="shop-hero-card shop-hero-vote" href="vote.html">
-        <p class="shop-hero-kicker">RECOMPENSES</p>
-        <h2>VOTER</h2>
-        <span>Gagne des cles et monte au classement</span>
-      </a>
-      <a class="shop-hero-card shop-hero-discord" href="https://discord.gg/terraverse" target="_blank" rel="noopener">
-        <p class="shop-hero-kicker">COMMUNAUTE</p>
-        <h2>DISCORD</h2>
-        <span>Events, annonces et support</span>
-      </a>
-    </section>
-
     <section class="server-select" id="serverSelect">
       <p class="section-kicker">BOUTIQUE</p>
       <h1>Choisis ton serveur</h1>
