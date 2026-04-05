@@ -88,7 +88,6 @@
       border-radius: 9px;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      margin-right: 0.45rem;
       min-width: 0;
       cursor: pointer;
       transition: border-color 0.18s, background 0.18s;
@@ -115,6 +114,12 @@
       font-size: 0.75rem;
       margin-left: 0.15rem;
       opacity: 0.9;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-shrink: 0;
     }
 
     .server-select {
@@ -233,14 +238,44 @@
       cursor: not-allowed;
     }
     .cart-btn {
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 10px;
-      padding: 0.6rem 1rem;
+      padding: 0.58rem 0.9rem;
       font-weight: 700;
       cursor: pointer;
-      color: #123500;
-      background: linear-gradient(135deg, #8cf52d, #65d300);
+      color: #f5f7ff;
+      background: rgba(255, 255, 255, 0.07);
       position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: border-color 0.18s, background 0.18s, transform 0.18s;
+    }
+    .cart-btn-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .cart-btn:hover {
+      border-color: rgba(0, 229, 255, 0.45);
+      background: rgba(255, 255, 255, 0.11);
+      transform: translateY(-1px);
+    }
+    .cart-btn.bump {
+      animation: cart-bump 0.32s ease;
+    }
+    @keyframes cart-bump {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+    .cart-btn-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(0, 229, 255, 0.22), rgba(0, 255, 136, 0.2));
+      font-size: 0.8rem;
     }
     .cart-badge {
       position: absolute;
@@ -292,14 +327,21 @@
       position: relative;
     }
     .product-art {
-      width: 96px;
-      height: 96px;
+      width: 118px;
+      height: 118px;
       margin: 0 auto 0.55rem;
       border-radius: 14px;
-      background: linear-gradient(135deg, rgba(167,80,255,0.6), rgba(255,131,255,0.45));
+      background: radial-gradient(circle at 50% 38%, rgba(0, 255, 136, 0.18), rgba(0, 229, 255, 0.04) 58%, transparent 76%);
       display: grid;
       place-items: center;
-      font-size: 2.6rem;
+      overflow: hidden;
+      padding: 0.08rem;
+    }
+    .product-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .product-tag {
       position: absolute;
@@ -346,6 +388,28 @@
       gap: 0.45rem;
       align-items: center;
     }
+    .item-main {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      min-width: 0;
+    }
+    .item-art {
+      width: 74px;
+      height: 74px;
+      border-radius: 14px;
+      background: radial-gradient(circle at 50% 36%, rgba(0, 255, 136, 0.18), rgba(0, 229, 255, 0.04) 58%, transparent 76%);
+      flex-shrink: 0;
+      display: grid;
+      place-items: center;
+      padding: 0.08rem;
+    }
+    .item-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
     .qty-btn {
       border: none;
       width: 28px;
@@ -383,42 +447,102 @@
       line-height: 1.5;
     }
 
+    .cart-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 160;
+      pointer-events: none;
+    }
+    .cart-drawer-backdrop.open {
+      display: block;
+    }
     .cart-container {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(380px, 100vw);
+      height: 100vh;
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 360px);
-      gap: 1rem;
-      align-items: start;
+      grid-template-rows: auto 1fr auto;
+      gap: 0;
+      background: linear-gradient(180deg, rgba(9, 20, 36, 0.97) 0%, rgba(10, 28, 48, 0.97) 100%);
+      color: #f5f7ff;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: -18px 0 40px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(18px);
+      z-index: 170;
+      transform: translateX(100%);
+      transition: transform 0.22s ease;
+      pointer-events: auto;
+    }
+    .cart-drawer-backdrop.open .cart-container {
+      transform: translateX(0);
+    }
+    .cart-drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.95rem 1rem 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .cart-drawer-close {
+      border: none;
+      background: none;
+      color: #f5f7ff;
+      font-size: 1.85rem;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0.82;
+    }
+    .cart-drawer-account {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      margin-left: auto;
+      color: #f5f7ff;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+    .cart-drawer-account img {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
     }
     .cart-left,
     .cart-right {
-      border-radius: 16px;
-      background: rgba(8, 18, 31, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 1rem;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.24);
     }
     .cart-left h2,
     .cart-right h2 {
       margin: 0 0 0.9rem;
       font-size: 1.15rem;
+      color: #f5f7ff;
     }
     .cart-empty {
       border-radius: 12px;
       padding: 0.95rem;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed rgba(255, 255, 255, 0.16);
-      color: rgba(245, 247, 255, 0.62);
+      border: 1px dashed rgba(255, 255, 255, 0.14);
+      color: rgba(245, 247, 255, 0.66);
       font-size: 0.82rem;
       line-height: 1.5;
     }
     .cart-item {
       border-radius: 14px;
       padding: 0.95rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
       display: grid;
       gap: 0.9rem;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+    }
+    .cart-list {
+      display: grid;
+      gap: 0.8rem;
     }
     .item-info {
       display: flex;
@@ -429,12 +553,12 @@
     .item-info h3 {
       margin: 0;
       font-size: 1.05rem;
-      color: #ff8cff;
+      color: #f5f7ff;
     }
     .item-price {
       font-size: 0.95rem;
       font-weight: 700;
-      color: #f5f7ff;
+      color: rgba(245, 247, 255, 0.84);
       white-space: nowrap;
     }
     .quantity-selector {
@@ -443,9 +567,10 @@
       gap: 0.55rem;
       padding: 0.35rem;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
       width: fit-content;
+      margin-left: auto;
     }
     .quantity-selector button {
       width: 34px;
@@ -483,13 +608,13 @@
       background: rgba(255, 255, 255, 0.08);
       border: 1px solid rgba(255, 255, 255, 0.12);
       font-size: 0.72rem;
-      color: rgba(245, 247, 255, 0.78);
+      color: rgba(245, 247, 255, 0.8);
       white-space: nowrap;
     }
     .recap-box {
       border-radius: 14px;
       padding: 0.85rem;
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
       display: grid;
       gap: 0.55rem;
@@ -506,9 +631,9 @@
     }
     .recap-total {
       padding-top: 0.55rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       font-weight: 800;
-      color: #ffffff;
+      color: #f5f7ff;
       font-size: 0.92rem;
     }
     .checkout-button {
@@ -637,11 +762,11 @@
       .product-grid { grid-template-columns: repeat(2, 1fr); }
       .server-grid { grid-template-columns: repeat(2, 1fr); }
       .bottom-row { grid-template-columns: 1fr; }
-      .cart-container { grid-template-columns: 1fr; }
       .account-mini { display: none; }
     }
     @media (max-width: 640px) {
       .shop-hero-grid { grid-template-columns: 1fr; }
+      .cart-btn-label { display: none; }
     }
   </style>
 </head>
@@ -666,13 +791,19 @@
         <a href="index.html#discord">Discord</a>
       </nav>
 
-      <div class="account-mini" id="changePseudoBtn" title="Changer le pseudo">
-        <img id="headerAccountAvatar" src="https://mc-heads.net/avatar/Steve/48" alt="Compte">
-        <strong id="headerAccountName">Invite</strong>
-        <span class="name-switch">⇄</span>
-      </div>
+      <div class="header-actions">
+        <div class="account-mini" id="changePseudoBtn" title="Changer le pseudo">
+          <img id="headerAccountAvatar" src="https://mc-heads.net/avatar/Steve/48" alt="Compte">
+          <strong id="headerAccountName">Invite</strong>
+          <span class="name-switch">⇄</span>
+        </div>
 
-      <button class="btn-jouer" onclick="window.location.href='index.html#howto'">▶ Jouer</button>
+        <button class="cart-btn" id="openCartBtn" type="button" aria-label="Voir le panier">
+          <span class="cart-btn-icon">🛒</span>
+          <span class="cart-btn-label">Panier</span>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -735,7 +866,6 @@
     <section class="shop-panel" id="shopPanel">
       <div class="shop-top">
         <div class="server-tabs" id="serverTabs"></div>
-        <button class="cart-btn" id="openCartBtn">Voir le recap <span class="cart-badge" id="cartBadge">0</span></button>
       </div>
 
       <article class="support-card" style="margin-bottom:1rem;">
@@ -745,27 +875,6 @@
 
       <div class="shop-content">
         <div class="product-grid" id="productGrid"></div>
-
-        <div class="cart-container" id="cartSummary">
-          <div class="cart-left">
-            <h2>Votre panier</h2>
-            <div id="cartLeftContent" class="cart-empty">Choisis un pack ci-dessus pour afficher ton panier.</div>
-          </div>
-
-          <div class="cart-right">
-            <h2>Recapitulatif</h2>
-
-            <div class="recap-box">
-              <div class="recap-line"><span>Quantite</span><strong id="cartCountBadge">0</strong></div>
-              <div class="recap-line"><span>Sous-total</span><strong id="cartSubtotal">0.00 EUR</strong></div>
-              <div class="recap-line"><span>Frais de processeur</span><strong id="cartFees">0.00 EUR</strong></div>
-              <div class="recap-total"><span>Total</span><strong id="cartGrandTotal">0.00 EUR</strong></div>
-            </div>
-
-            <button class="continue-btn checkout-button" id="continueBtn">Continuer vers le paiement</button>
-            <p class="checkout-note" id="checkoutNote">Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex.</p>
-          </div>
-        </div>
 
         <div class="bottom-row">
           <article class="info-card">
@@ -794,6 +903,35 @@
     </div>
   </footer>
 
+  <div class="cart-drawer-backdrop" id="cartDrawerBackdrop" aria-hidden="true">
+    <aside class="cart-container" id="cartSummary" aria-label="Panier">
+      <div class="cart-drawer-head">
+        <button class="cart-drawer-close" id="closeCartBtn" type="button" aria-label="Fermer le panier">×</button>
+        <div class="cart-drawer-account">
+          <img id="drawerAccountAvatar" src="https://mc-heads.net/avatar/Steve/48" alt="Compte">
+          <span id="drawerAccountName">Invite</span>
+        </div>
+      </div>
+
+      <div class="cart-left">
+        <h2>Votre panier</h2>
+        <div id="cartLeftContent" class="cart-empty">Choisis un pack ci-dessus pour afficher ton panier.</div>
+      </div>
+
+      <div class="cart-right">
+        <div class="recap-box">
+          <div class="recap-line"><span>Quantite</span><strong id="cartCountBadge">0</strong></div>
+          <div class="recap-line"><span>Sous-total</span><strong id="cartSubtotal">0.00 EUR</strong></div>
+          <div class="recap-line"><span>Frais de processeur</span><strong id="cartFees">0.00 EUR</strong></div>
+          <div class="recap-total"><span>Total</span><strong id="cartGrandTotal">0.00 EUR</strong></div>
+        </div>
+
+        <button class="continue-btn checkout-button" id="continueBtn">Continuer vers le paiement</button>
+        <p class="checkout-note" id="checkoutNote">Le panier est conserve localement sur le site. Le paiement final se fait sur Tebex.</p>
+      </div>
+    </aside>
+  </div>
+
   <div class="modal-backdrop" id="shopModalBackdrop" aria-hidden="true">
     <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="shopModalTitle">
       <button class="close-modal" id="closeShopModal" aria-label="Fermer">×</button>
@@ -814,12 +952,12 @@
   <script src="particles.js?v=20260401-1"></script>
   <script>
     const PRODUCTS = [
-      { id: "gems500", tag: "Starter", icon: "💎", name: "500 Gems", price: 2.99, oldPrice: null, command: "geco add {username} 500 Gems" },
-      { id: "gems1200", tag: "Petit boost", icon: "💎", name: "1.200 Gems", price: 5.49, oldPrice: null, command: "geco add {username} 1200 Gems" },
-      { id: "gems2500", tag: "Equilibre", icon: "💎", name: "2.500 Gems", price: 9.99, oldPrice: null, command: "geco add {username} 2500 Gems" },
-      { id: "gems5000", tag: "Bon plan", icon: "💎", name: "5.000 Gems", price: 18.99, oldPrice: null, command: "geco add {username} 5000 Gems" },
-      { id: "gems10000", tag: "Le plus populaire", icon: "💎", name: "10.000 Gems", price: 34.99, oldPrice: null, command: "geco add {username} 10000 Gems" },
-      { id: "gems20000", tag: "Le plus rentable", icon: "💎", name: "20.000 Gems", price: 59.99, oldPrice: null, command: "geco add {username} 20000 Gems" }
+      { id: "gems500", tag: "Starter", image: "assets/shop/500 gems.png", name: "500 Gems", price: 2.99, oldPrice: null, command: "geco add {username} 500 Gems" },
+      { id: "gems1200", tag: "Petit boost", image: "assets/shop/1200 gems.png", name: "1.200 Gems", price: 5.49, oldPrice: null, command: "geco add {username} 1200 Gems" },
+      { id: "gems2500", tag: "Equilibre", image: "assets/shop/2500 gems .png", name: "2.500 Gems", price: 9.99, oldPrice: null, command: "geco add {username} 2500 Gems" },
+      { id: "gems5000", tag: "Bon plan", image: "assets/shop/5000 gems.png", name: "5.000 Gems", price: 18.99, oldPrice: null, command: "geco add {username} 5000 Gems" },
+      { id: "gems10000", tag: "Le plus populaire", image: "assets/shop/10000 gems.png", name: "10.000 Gems", price: 34.99, oldPrice: null, command: "geco add {username} 10000 Gems" },
+      { id: "gems20000", tag: "Le plus rentable", image: "assets/shop/20000.png", name: "20.000 Gems", price: 59.99, oldPrice: null, command: "geco add {username} 20000 Gems" }
     ];
 
     const TEBEX_CONFIG = {
@@ -877,6 +1015,7 @@
     const serverTabs = document.getElementById("serverTabs");
     const productGrid = document.getElementById("productGrid");
     const cartBadge = document.getElementById("cartBadge");
+    const openCartBtn = document.getElementById("openCartBtn");
     const cartLeftContent = document.getElementById("cartLeftContent");
     const cartCountBadge = document.getElementById("cartCountBadge");
     const cartSubtotal = document.getElementById("cartSubtotal");
@@ -884,6 +1023,10 @@
     const cartGrandTotal = document.getElementById("cartGrandTotal");
     const checkoutNote = document.getElementById("checkoutNote");
     const cartSummary = document.getElementById("cartSummary");
+    const cartDrawerBackdrop = document.getElementById("cartDrawerBackdrop");
+    const closeCartBtn = document.getElementById("closeCartBtn");
+    const drawerAccountAvatar = document.getElementById("drawerAccountAvatar");
+    const drawerAccountName = document.getElementById("drawerAccountName");
 
 
     const backdrop = document.getElementById("shopModalBackdrop");
@@ -938,10 +1081,30 @@
       if (!pseudo) {
         accountName.textContent = "Invite";
         accountAvatar.src = "https://mc-heads.net/avatar/Steve/48";
+        drawerAccountName.textContent = "Invite";
+        drawerAccountAvatar.src = "https://mc-heads.net/avatar/Steve/48";
         return;
       }
       accountName.textContent = pseudo;
       accountAvatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/48`;
+      drawerAccountName.textContent = pseudo;
+      drawerAccountAvatar.src = `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/48`;
+    }
+
+    function openCartDrawer() {
+      cartDrawerBackdrop.classList.add("open");
+      cartDrawerBackdrop.setAttribute("aria-hidden", "false");
+    }
+
+    function closeCartDrawer() {
+      cartDrawerBackdrop.classList.remove("open");
+      cartDrawerBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    function flashCartButton() {
+      openCartBtn.classList.remove("bump");
+      void openCartBtn.offsetWidth;
+      openCartBtn.classList.add("bump");
     }
 
     function setServer(server) {
@@ -1009,10 +1172,10 @@
         card.className = "product-card";
         card.innerHTML = `
           ${p.tag ? `<span class="product-tag">${p.tag}</span>` : ""}
-          <div class="product-art">${p.icon}</div>
+          <div class="product-art"><img src="${p.image}" alt="${p.name}"></div>
           <p class="product-name">${p.name}</p>
           <p class="product-price">${euro(p.price)} ${p.oldPrice ? `<small>${euro(p.oldPrice)}</small>` : ""}</p>
-          <button class="add-btn" data-add="${p.id}">${qty > 0 ? "Selectionne" : "Choisir ce pack"}</button>
+          <button class="add-btn" data-add="${p.id}">${qty > 0 ? `Ajouter encore (${qty})` : "Choisir ce pack"}</button>
         `;
         productGrid.appendChild(card);
       });
@@ -1027,29 +1190,34 @@
         cartLeftContent.className = "cart-empty";
         cartLeftContent.innerHTML = "Choisis un pack ci-dessus pour afficher ton panier.";
       } else {
-        const product = used[0];
-        const qty = cart[product.id];
-        cartLeftContent.className = "cart-item";
-        cartLeftContent.innerHTML = `
-          <div class="item-info">
-            <div>
-              <h3>${product.name}</h3>
-              <span class="item-price">${euro(product.price)}</span>
-            </div>
-            <span class="summary-count">${qty} article${qty > 1 ? "s" : ""}</span>
-          </div>
+        cartLeftContent.className = "cart-list";
+        cartLeftContent.innerHTML = `${used.map(product => {
+          const qty = cart[product.id];
+          return `
+            <article class="cart-item">
+              <div class="item-info">
+                <div class="item-main">
+                  <div class="item-art"><img src="${product.image}" alt="${product.name}"></div>
+                  <div>
+                    <h3>${product.name}</h3>
+                    <span class="item-price">${euro(product.price)}</span>
+                  </div>
+                </div>
+                <span class="summary-count">${qty} article${qty > 1 ? "s" : ""}</span>
+              </div>
 
-          <div class="quantity-selector">
-            <button type="button" data-cart-action="minus">-</button>
-            <span id="quantity">${qty}</span>
-            <button type="button" data-cart-action="plus">+</button>
-          </div>
-
-          <div class="cart-bonus">
-            <h4>Info panier</h4>
-            <p class="bonus-note">La quantite modifie ton total. Le paiement final se fait sur Tebex avec le pack selectionne.</p>
-          </div>
-        `;
+              <div class="quantity-selector">
+                <button type="button" data-cart-action="minus" data-product-id="${product.id}">-</button>
+                <span>${qty}</span>
+                <button type="button" data-cart-action="plus" data-product-id="${product.id}">+</button>
+              </div>
+            </article>
+          `;
+        }).join("")}
+        <div class="cart-bonus">
+          <h4>Info panier</h4>
+          <p class="bonus-note">Tu peux maintenant ajouter plusieurs packs dans le meme panier. S'il y a plusieurs articles, la redirection finale se fera vers la boutique Tebex.</p>
+        </div>`;
       }
 
       cartBadge.textContent = String(rewards.count);
@@ -1072,10 +1240,10 @@
 
     function inc(id) {
       const cart = getCurrentCart();
-      const nextQty = (cart[id] || 0) + 1;
-      Object.keys(cart).forEach(key => delete cart[key]);
-      cart[id] = nextQty;
+      cart[id] = (cart[id] || 0) + 1;
       renderCart();
+      flashCartButton();
+      openCartDrawer();
     }
 
     function dec(id) {
@@ -1097,8 +1265,7 @@
 
     cartLeftContent.addEventListener("click", (e) => {
       const action = e.target.getAttribute("data-cart-action");
-      const currentCart = getCurrentCart();
-      const currentId = Object.keys(currentCart).find(key => currentCart[key] > 0);
+      const currentId = e.target.getAttribute("data-product-id");
       if (!currentId) return;
 
       if (action === "plus") inc(currentId);
@@ -1106,9 +1273,9 @@
     });
 
     document.getElementById("openCartBtn").addEventListener("click", () => {
-      cartSummary.scrollIntoView({ behavior: "smooth", block: "start" });
+      openCartDrawer();
     });
-
+    closeCartBtn.addEventListener("click", closeCartDrawer);
     document.getElementById("continueBtn").addEventListener("click", () => {
       const rewards = getCartRewards();
       if (rewards.count === 0) {
@@ -1124,6 +1291,7 @@
         lines: PRODUCTS.filter(product => (getCurrentCart()[product.id] || 0) > 0).map(product => ({
           id: product.id,
           name: product.name,
+          image: product.image,
           quantity: getCurrentCart()[product.id],
           unitPrice: product.price,
           command: product.command.replace("{username}", localStorage.getItem(STORAGE_PSEUDO) || "{username}")
