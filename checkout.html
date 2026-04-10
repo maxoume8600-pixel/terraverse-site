@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <title>Checkout - TerraVerse Network</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Checkout TerraVerse - Verifie ton panier avant de finaliser sur Tebex.">
+  <meta name="description" content="Checkout TerraVerse - Vérifie ton panier avant de finaliser sur Tebex.">
   <link rel="icon" type="image/png" href="logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=20260401-1">
+
   <style>
     body.checkout-page {
       min-height: 100vh;
       color: #f5f7ff;
     }
+
     .checkout-wrap {
       max-width: 1180px;
       margin: 0 auto;
@@ -20,9 +22,11 @@
       position: relative;
       z-index: 1;
     }
+
     .checkout-hero {
       margin-bottom: 1.3rem;
     }
+
     .checkout-kicker {
       margin: 0 0 0.45rem;
       color: rgba(0, 229, 255, 0.92);
@@ -31,434 +35,50 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
     }
+
     .checkout-hero h1 {
       margin: 0;
       font-size: 2.35rem;
       line-height: 1.05;
     }
+
     .checkout-hero p {
       margin: 0.55rem 0 0;
       color: rgba(245, 247, 255, 0.7);
       max-width: 720px;
     }
-    .account-mini {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      padding: 0.38rem 0.55rem;
-      border-radius: 9px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      margin-right: 0.45rem;
-      min-width: 0;
-    }
-    .account-mini img {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      flex-shrink: 0;
-    }
-    .account-mini strong {
-      font-size: 0.82rem;
-      color: rgba(245, 247, 255, 0.88);
-      max-width: 92px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .name-switch {
-      font-size: 0.75rem;
-      margin-left: 0.15rem;
-      opacity: 0.9;
-    }
-    .back-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      color: rgba(245, 247, 255, 0.76);
-      font-weight: 600;
-      margin-bottom: 1rem;
-      transition: color 0.18s;
-    }
-    .back-link:hover {
-      color: #00e5ff;
-    }
+
+    /* --- IFRAME CHECKOUT --- */
     .checkout-shell {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+      width: 100%;
+      height: 1000px;
       background: rgba(8, 18, 34, 0.76);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 24px;
       overflow: hidden;
       backdrop-filter: blur(16px);
       box-shadow: 0 22px 54px rgba(0, 0, 0, 0.34);
-      min-height: 640px;
+      margin-top: 2rem;
     }
-    .checkout-left,
-    .checkout-right {
-      padding: 2rem 2.2rem;
-    }
-    .checkout-left {
-      border-right: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .checkout-title {
-      font-size: 2rem;
-      margin: 0 0 1.5rem;
-      color: #f5f7ff;
-    }
-    .cart-card,
-    .goal-card,
-    .account-card,
-    .payment-box,
-    .coupon-box {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 16px;
-    }
-    .cart-empty {
-      border-radius: 16px;
-      padding: 1rem 1.1rem;
-      color: rgba(245, 247, 255, 0.72);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px dashed rgba(255, 255, 255, 0.14);
-    }
-    .cart-card {
-      padding: 1rem 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-    }
-    .cart-list {
-      display: grid;
-      gap: 0.9rem;
-      margin-bottom: 1.4rem;
-    }
-    .cart-card-main {
-      display: flex;
-      align-items: center;
-      gap: 0.9rem;
-      min-width: 0;
-    }
-    .cart-icon {
-      width: 72px;
-      height: 72px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: radial-gradient(circle at 50% 36%, rgba(0, 255, 136, 0.18), rgba(0, 229, 255, 0.04) 58%, transparent 76%);
-      flex-shrink: 0;
-      overflow: hidden;
-      padding: 0.08rem;
-    }
-    .cart-icon img {
+
+    .checkout-shell iframe {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-    .cart-card-main h2 {
-      margin: 0;
-      font-size: 1.3rem;
-      color: #f5f7ff;
-    }
-    .cart-card-main p {
-      margin: 0.18rem 0 0;
-      color: rgba(245, 247, 255, 0.72);
-      font-weight: 600;
-    }
-    .quantity-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.35rem;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    .quantity-box button {
-      width: 34px;
-      height: 34px;
       border: none;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.14);
-      color: #f5f7ff;
-      font-weight: 800;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
     }
-    .quantity-box span {
-      min-width: 24px;
-      text-align: center;
-      font-weight: 700;
-      color: #f5f7ff;
-    }
-    .checkout-right h2 {
-      margin: 0 0 1rem;
-      font-size: 2rem;
-      color: #f5f7ff;
-    }
-    .coupon-box {
-      padding: 0.8rem 0.9rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-      color: rgba(245, 247, 255, 0.62);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    .coupon-box strong {
-      color: rgba(245, 247, 255, 0.5);
-      font-size: 0.84rem;
-    }
-    .recap-lines {
-      display: grid;
-      gap: 0.65rem;
-      margin-bottom: 1.8rem;
-    }
-    .line-row,
-    .line-total {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-    .line-row {
-      color: rgba(245, 247, 255, 0.72);
-    }
-    .line-total {
-      color: #f5f7ff;
-      font-weight: 800;
-      font-size: 1.05rem;
-      padding-top: 0.4rem;
-    }
-    .send-title,
-    .payment-title {
-      margin: 0 0 0.9rem;
-      font-size: 1.6rem;
-      color: #f5f7ff;
-    }
-    .account-card {
-      padding: 1rem;
-      display: flex;
-      gap: 0.9rem;
-      align-items: center;
-      margin-bottom: 1.8rem;
-    }
-    .account-card img {
-      width: 62px;
-      height: 62px;
-      border-radius: 14px;
-      flex-shrink: 0;
-    }
-    .account-card strong {
-      display: block;
-      font-size: 1rem;
-      color: #f5f7ff;
-      margin-bottom: 0.2rem;
-    }
-    .account-card p {
-      margin: 0;
-      color: rgba(245, 247, 255, 0.6);
-      font-size: 0.78rem;
-      line-height: 1.5;
-    }
-    .change-link {
-      display: inline-block;
-      margin-top: 0.35rem;
-      color: #00e5ff;
-      font-size: 0.8rem;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    .payment-box {
-      padding: 1rem;
-    }
-    .payment-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.7rem;
-      margin-bottom: 0.9rem;
-    }
-    .payment-pill {
-      height: 46px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(255, 255, 255, 0.05);
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      color: rgba(245, 247, 255, 0.84);
-    }
-    .payment-pill.active {
-      background: linear-gradient(135deg, rgba(0, 229, 255, 0.22), rgba(0, 255, 136, 0.16));
-      border-color: rgba(0, 229, 255, 0.42);
-    }
-    .terms-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.55rem;
-      color: rgba(245, 247, 255, 0.62);
-      font-size: 0.74rem;
-      line-height: 1.4;
-      margin-bottom: 0.9rem;
-    }
-    .pay-btn {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 0.95rem 1rem;
-      background: linear-gradient(180deg, #b8ff12 0%, #86ef00 100%);
-      color: #2d5a00;
-      font-weight: 800;
-      font-size: 1.05rem;
-      cursor: pointer;
-    }
-    .warning {
-      margin-top: 0.8rem;
-      color: #ffdba1;
-      background: rgba(255, 179, 77, 0.12);
-      border: 1px solid rgba(255, 179, 77, 0.28);
-      border-radius: 12px;
-      padding: 0.8rem 0.9rem;
-      font-size: 0.78rem;
-      line-height: 1.5;
-    }
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(3, 8, 16, 0.65);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      padding: 1rem;
-    }
-    .modal-backdrop.open { display: flex; }
-    .shop-modal {
-      width: 100%;
-      max-width: 440px;
-      background: #ffffff;
-      color: #1f2a38;
-      border-radius: 16px;
-      padding: 1.15rem;
-      box-shadow: 0 28px 58px rgba(0, 0, 0, 0.35);
-      position: relative;
-    }
-    .close-modal {
-      position: absolute;
-      top: 0.55rem;
-      right: 0.8rem;
-      border: none;
-      background: none;
-      font-size: 1.45rem;
-      cursor: pointer;
-      color: #5f6572;
-    }
-    .shop-modal h3 {
-      margin: 0.25rem 0 0.25rem;
-      text-align: center;
-      font-size: 1.45rem;
-    }
-    .target-label {
-      margin: 0 0 0.7rem;
-      text-align: center;
-      color: #5f6879;
-      font-size: 0.86rem;
-      font-weight: 700;
-    }
-    .avatar-preview {
-      display: block;
-      width: 56px;
-      height: 56px;
-      border-radius: 10px;
-      margin: 0 auto 0.8rem;
-      object-fit: cover;
-      background: #ececec;
-    }
-    .version-switch {
-      display: flex;
-      gap: 0.45rem;
-      background: #f1f1f1;
-      border-radius: 10px;
-      padding: 0.3rem;
-      margin-bottom: 0.8rem;
-    }
-    .version-switch button {
-      flex: 1;
-      border: none;
-      background: transparent;
-      border-radius: 8px;
-      padding: 0.55rem;
-      font-weight: 700;
-      cursor: pointer;
-      color: #4d5868;
-    }
-    .version-switch button.active {
-      background: #79df25;
-      color: #173500;
-    }
-    .input-row {
-      display: flex;
-      gap: 0.45rem;
-      align-items: center;
-    }
-    .input-row input {
-      flex: 1;
-      border: 1px solid #d8d8d8;
-      border-radius: 10px;
-      padding: 0.7rem 0.78rem;
-      font-family: inherit;
-      font-size: 0.93rem;
-    }
-    .submit-btn {
-      border: none;
-      border-radius: 10px;
-      padding: 0.7rem 0.9rem;
-      font-weight: 800;
-      font-size: 1rem;
-      cursor: pointer;
-      background: linear-gradient(135deg, #85f72a, #59c601);
-      color: #173500;
-    }
-    @media (max-width: 960px) {
-      .checkout-shell {
-        grid-template-columns: 1fr;
-      }
-      .checkout-left {
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      }
-    }
+
     @media (max-width: 640px) {
-      .account-mini {
-        display: none;
-      }
-      .checkout-wrap {
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-      .checkout-left,
-      .checkout-right {
-        padding: 1.35rem;
-      }
-      .checkout-hero h1,
-      .checkout-title,
-      .checkout-right h2 {
+      .checkout-hero h1 {
         font-size: 1.65rem;
-      }
-      .cart-card {
-        flex-direction: column;
-        align-items: stretch;
       }
     }
   </style>
 </head>
+
 <body class="checkout-page">
   <canvas id="particles"></canvas>
 
+  <!-- HEADER -->
   <header>
     <div class="nav-container">
       <div class="nav-logo">
@@ -487,79 +107,35 @@
     </div>
   </header>
 
+  <!-- MAIN -->
   <main class="checkout-wrap">
     <section class="checkout-hero">
       <p class="checkout-kicker">FINALISER</p>
-      <h1>Verifie ton panier avant Tebex</h1>
-      <p>Tu restes dans le meme univers visuel que la boutique TerraVerse, puis tu passes sur Tebex uniquement pour la validation finale du paiement.</p>
+      <h1>Vérifie ton panier avant Tebex</h1>
+      <p>Tu restes dans l’univers visuel TerraVerse, puis tu passes sur Tebex uniquement pour la validation finale du paiement.</p>
     </section>
 
     <a href="shop.html" class="back-link">↶ Continuer mes achats</a>
 
+    <!-- IFRAME CHECKOUT TEBEX -->
     <section class="checkout-shell">
-      <div class="checkout-left">
-        <h1 class="checkout-title">Votre panier</h1>
-
-        <div id="cartItemCard" class="cart-empty">Aucun panier en cours. Retourne sur la boutique pour choisir un pack.</div>
-
-      </div>
-
-      <div class="checkout-right">
-        <h2>Recapitulatif</h2>
-
-        <div class="coupon-box">
-          <span>🎟️ Code de reduction</span>
-          <strong>Appliquer</strong>
-        </div>
-
-        <div class="recap-lines">
-          <div class="line-row"><span>Sous total</span><strong id="subtotalValue">0.00 EUR</strong></div>
-          <div class="line-row"><span>Frais de processeur de paiement</span><strong id="feesValue">0.00 EUR</strong></div>
-          <div class="line-total"><span>Total</span><strong id="totalValue">0.00 EUR</strong></div>
-        </div>
-
-        <h3 class="send-title">Envoyer sur le serveur <span id="serverName">Survie</span></h3>
-
-        <div class="account-card">
-          <img id="accountAvatar" src="https://mc-heads.net/avatar/Steve/64" alt="Compte">
-          <div>
-            <strong id="accountPseudo">Invite</strong>
-            <p>Les objets que vous achetez aujourd'hui sont non transferables, non remboursables, et seront ajoutes au compte <span id="accountPseudoInline">Invite</span>.</p>
-            <a href="#" class="change-link" id="changeCheckoutPseudo">Changer de compte</a>
-          </div>
-        </div>
-
-        <h3 class="payment-title">Paiement</h3>
-
-        <div class="payment-box">
-          <div class="payment-options">
-            <div class="payment-pill active">PayPal</div>
-            <div class="payment-pill">VISA Mastercard</div>
-          </div>
-
-          <label class="terms-row">
-            <input type="checkbox" id="termsCheck">
-            <span>J'accepte immediatement les Conditions Generales de Ventes et renonce a tout droit de retractation.</span>
-          </label>
-
-          <button id="payBtn" class="pay-btn">Payer 0.00 EUR avec PayPal</button>
-
-          <div id="quantityWarning" class="warning" style="display:none;"></div>
-        </div>
-      </div>
+      <iframe src="https://terraverse-shop.tebex.io/checkout"></iframe>
     </section>
   </main>
 
+  <!-- MODAL PSEUDO (inchangé) -->
   <div class="modal-backdrop" id="shopModalBackdrop" aria-hidden="true">
     <div class="shop-modal" role="dialog" aria-modal="true" aria-labelledby="shopModalTitle">
       <button class="close-modal" id="closeShopModal" aria-label="Fermer">×</button>
       <h3 id="shopModalTitle">Entre ton pseudo Minecraft</h3>
       <p class="target-label" id="serverTarget">Changer le pseudo</p>
-      <img id="avatarPreview" class="avatar-preview" src="https://mc-heads.net/avatar/Steve/64" alt="Apercu skin">
+      <img id="avatarPreview" class="avatar-preview" src="https://mc-heads.net/avatar/Steve/64" alt="Aperçu skin">
+
       <div class="version-switch" id="versionSwitch">
         <button type="button" class="active" data-version="java">Java</button>
         <button type="button" data-version="bedrock">Bedrock</button>
       </div>
+
       <div class="input-row">
         <input id="pseudoInput" type="text" maxlength="16" placeholder="Entre ton pseudo ici">
         <button class="submit-btn" id="submitShop">→</button>
@@ -569,52 +145,16 @@
 
   <script src="particles.js?v=20260401-1"></script>
   <script>
+    /* Gestion pseudo (inchangé) */
     const STORAGE_PSEUDO = "terraversePseudo";
-    const STORAGE_VERSION = "terraverseShopVersion";
-    const STORAGE_CHECKOUT = "terraversePendingCheckout";
-    const STORAGE_CARTS = "terraverseShopCarts";
-    const STORAGE_SERVER = "terraverseShopServer";
-    const PRODUCT_IMAGES = {
-      gems500: "assets/shop/500 gems.png",
-      gems1200: "assets/shop/1200 gems.png",
-      gems2500: "assets/shop/2500 gems .png",
-      gems5000: "assets/shop/5000 gems.png",
-      gems10000: "assets/shop/10000 gems.png",
-      gems20000: "assets/shop/20000.png"
-    };
-    const PRODUCT_URLS = {
-      gems500: "https://terraverse-shop.tebex.io/package/7375107",
-      gems1200: "https://terraverse-shop.tebex.io/package/7375110",
-      gems2500: "https://terraverse-shop.tebex.io/package/7375140",
-      gems5000: "https://terraverse-shop.tebex.io/package/7375142",
-      gems10000: "https://terraverse-shop.tebex.io/package/7375143",
-      gems20000: "https://terraverse-shop.tebex.io/package/7375145"
-    };
-    const STORE_URL = "https://terraverse-shop.tebex.io";
-
-    const burger = document.getElementById("burger");
-    const navLinks = document.getElementById("navLinks");
-    const backdrop = document.getElementById("shopModalBackdrop");
-    const closeBtn = document.getElementById("closeShopModal");
     const pseudoInput = document.getElementById("pseudoInput");
     const avatarPreview = document.getElementById("avatarPreview");
-    const submitShop = document.getElementById("submitShop");
-    const switchContainer = document.getElementById("versionSwitch");
-    const serverTarget = document.getElementById("serverTarget");
-    const accountAvatar = document.getElementById("headerAccountAvatar");
     const accountName = document.getElementById("headerAccountName");
+    const accountAvatar = document.getElementById("headerAccountAvatar");
     const changePseudoBtn = document.getElementById("changePseudoBtn");
-    const changeCheckoutPseudo = document.getElementById("changeCheckoutPseudo");
-    const accountPseudo = document.getElementById("accountPseudo");
-    const accountPseudoInline = document.getElementById("accountPseudoInline");
-    const accountAvatarLarge = document.getElementById("accountAvatar");
-
-    let selectedVersion = localStorage.getItem(STORAGE_VERSION) || "java";
-
-    burger.addEventListener("click", () => {
-      burger.classList.toggle("active");
-      navLinks.classList.toggle("open");
-    });
+    const backdrop = document.getElementById("shopModalBackdrop");
+    const closeBtn = document.getElementById("closeShopModal");
+    const submitShop = document.getElementById("submitShop");
 
     function updateAvatar() {
       const pseudo = pseudoInput.value.trim();
@@ -622,228 +162,35 @@
     }
 
     function updateAccountUI(pseudo) {
-      const safePseudo = pseudo || "Invite";
-      const smallAvatar = pseudo ? `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/48` : "https://mc-heads.net/avatar/Steve/48";
-      const largeAvatar = pseudo ? `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/64` : "https://mc-heads.net/avatar/Steve/64";
-      accountName.textContent = safePseudo;
-      accountAvatar.src = smallAvatar;
-      accountPseudo.textContent = safePseudo;
-      accountPseudoInline.textContent = safePseudo;
-      accountAvatarLarge.src = largeAvatar;
+      const safe = pseudo || "Invite";
+      accountName.textContent = safe;
+      accountAvatar.src = pseudo ? `https://mc-heads.net/avatar/${encodeURIComponent(pseudo)}/48` : "https://mc-heads.net/avatar/Steve/48";
     }
 
     function openPseudoModal() {
-      serverTarget.textContent = "Changer le pseudo";
       pseudoInput.value = localStorage.getItem(STORAGE_PSEUDO) || "";
       updateAvatar();
       backdrop.classList.add("open");
-      backdrop.setAttribute("aria-hidden", "false");
-      pseudoInput.focus();
     }
 
     function closeModal() {
       backdrop.classList.remove("open");
-      backdrop.setAttribute("aria-hidden", "true");
     }
-
-    function euro(value) {
-      return `${value.toFixed(2)} EUR`;
-    }
-
-    function loadCheckout() {
-      try {
-        const raw = localStorage.getItem(STORAGE_CHECKOUT);
-        return raw ? JSON.parse(raw) : null;
-      } catch {
-        return null;
-      }
-    }
-
-    function saveCheckout(data) {
-      localStorage.setItem(STORAGE_CHECKOUT, JSON.stringify(data));
-    }
-
-    function saveCartState(server, items) {
-      try {
-        const raw = localStorage.getItem(STORAGE_CARTS);
-        const carts = raw ? JSON.parse(raw) : {};
-        carts[server] = items;
-        localStorage.setItem(STORAGE_CARTS, JSON.stringify(carts));
-        localStorage.setItem(STORAGE_SERVER, server);
-      } catch {
-        // Ignore localStorage sync failures in checkout view.
-      }
-    }
-
-    function computeTotals(lines) {
-      const subtotal = lines.reduce((sum, line) => sum + (line.unitPrice * line.quantity), 0);
-      const fees = subtotal * 0.045;
-      return {
-        subtotal,
-        fees,
-        total: subtotal + fees
-      };
-    }
-
-    function getCheckoutUrl(lines) {
-      if (!Array.isArray(lines) || lines.length !== 1) return STORE_URL;
-      return PRODUCT_URLS[lines[0].id] || STORE_URL;
-    }
-
-    let state = loadCheckout();
-
-    switchContainer.querySelectorAll("button").forEach(btn => {
-      if (btn.dataset.version === selectedVersion) btn.classList.add("active");
-      else btn.classList.remove("active");
-      btn.addEventListener("click", () => {
-        selectedVersion = btn.dataset.version;
-        localStorage.setItem(STORAGE_VERSION, selectedVersion);
-        switchContainer.querySelectorAll("button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-      });
-    });
 
     pseudoInput.addEventListener("input", updateAvatar);
-    closeBtn.addEventListener("click", closeModal);
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) closeModal();
-    });
     changePseudoBtn.addEventListener("click", openPseudoModal);
-    changeCheckoutPseudo.addEventListener("click", (e) => {
-      e.preventDefault();
-      openPseudoModal();
-    });
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", e => { if (e.target === backdrop) closeModal(); });
 
     submitShop.addEventListener("click", () => {
       const pseudo = pseudoInput.value.trim();
-      if (!pseudo) {
-        alert("Entre ton pseudo Minecraft.");
-        return;
-      }
-
+      if (!pseudo) return alert("Entre ton pseudo Minecraft.");
       localStorage.setItem(STORAGE_PSEUDO, pseudo);
       updateAccountUI(pseudo);
-
-      if (state) {
-        state.pseudo = pseudo;
-        if (Array.isArray(state.lines)) {
-          state.lines = state.lines.map(line => ({
-            ...line,
-            command: line.command ? line.command.replace(/\{username\}|\b[a-zA-Z0-9_]{1,16}\b(?=.* Gems$)/, pseudo) : line.command
-          }));
-        }
-        saveCheckout(state);
-      }
-
       closeModal();
     });
 
-    if (!state || !Array.isArray(state.lines) || !state.lines.length) {
-      document.getElementById("cartItemCard").textContent = "Aucun panier en cours. Retourne sur la boutique pour choisir un pack.";
-      document.getElementById("payBtn").disabled = true;
-      document.getElementById("payBtn").textContent = "Panier vide";
-      updateAccountUI(localStorage.getItem(STORAGE_PSEUDO) || "");
-    } else {
-      document.getElementById("serverName").textContent = state.server || "Survie";
-      updateAccountUI(state.pseudo || localStorage.getItem(STORAGE_PSEUDO) || "");
-
-      const card = document.getElementById("cartItemCard");
-      card.className = "cart-list";
-
-      function render() {
-        const totals = computeTotals(state.lines);
-        const checkoutUrl = getCheckoutUrl(state.lines);
-        card.innerHTML = state.lines.map(item => {
-          const productImage = item.image || PRODUCT_IMAGES[item.id] || PRODUCT_IMAGES.gems500;
-          return `
-            <article class="cart-card">
-              <div class="cart-card-main">
-                <div class="cart-icon"><img src="${productImage}" alt="${item.name}"></div>
-                <div>
-                  <h2>${item.name}</h2>
-                  <p>${euro(item.unitPrice)}</p>
-                </div>
-              </div>
-
-              <div class="quantity-box">
-                <button type="button" data-line-action="minus" data-product-id="${item.id}">-</button>
-                <span>${item.quantity}</span>
-                <button type="button" data-line-action="plus" data-product-id="${item.id}">+</button>
-              </div>
-            </article>
-          `;
-        }).join("");
-
-        document.getElementById("subtotalValue").textContent = euro(totals.subtotal);
-        document.getElementById("feesValue").textContent = euro(totals.fees);
-        document.getElementById("totalValue").textContent = euro(totals.total);
-        document.getElementById("payBtn").textContent = state.lines.length === 1
-          ? `Payer ${euro(totals.total)} avec PayPal`
-          : `Continuer vers Tebex (${euro(totals.total)})`;
-
-        const warning = document.getElementById("quantityWarning");
-        const totalQuantity = state.lines.reduce((sum, line) => sum + line.quantity, 0);
-        if (state.lines.length > 1 || totalQuantity > 1) {
-          warning.style.display = "block";
-          warning.textContent = state.lines.length > 1
-            ? "Tu as choisi plusieurs packs. La redirection finale ira vers la boutique Tebex pour finaliser le panier."
-            : `Tu as choisi ${totalQuantity} exemplaires sur le site. Cette quantite est visible ici, mais Tebex peut demander de la reverifier sur la page finale.`;
-        } else {
-          warning.style.display = "none";
-          warning.textContent = "";
-        }
-      }
-
-      render();
-
-      card.addEventListener("click", (e) => {
-        const action = e.target.getAttribute("data-line-action");
-        const productId = e.target.getAttribute("data-product-id");
-        if (!action || !productId) return;
-
-        const line = state.lines.find(entry => entry.id === productId);
-        if (!line) return;
-
-        if (action === "plus") {
-          line.quantity += 1;
-          state.items[productId] = line.quantity;
-        }
-
-        if (action === "minus") {
-          line.quantity -= 1;
-          if (line.quantity <= 0) {
-            state.lines = state.lines.filter(entry => entry.id !== productId);
-            delete state.items[productId];
-          } else {
-            state.items[productId] = line.quantity;
-          }
-        }
-
-        const updatedTotals = computeTotals(state.lines);
-        state.subtotal = updatedTotals.subtotal;
-        state.fees = updatedTotals.fees;
-        state.total = updatedTotals.total;
-        state.checkoutUrl = getCheckoutUrl(state.lines);
-        saveCartState(state.server, state.items);
-        saveCheckout(state);
-
-        if (!state.lines.length) {
-          window.location.href = "shop.html";
-          return;
-        }
-
-        render();
-      });
-
-      document.getElementById("payBtn").addEventListener("click", () => {
-        if (!document.getElementById("termsCheck").checked) {
-          alert("Tu dois accepter les conditions avant de continuer.");
-          return;
-        }
-
-        window.location.href = getCheckoutUrl(state.lines);
-      });
-    }
+    updateAccountUI(localStorage.getItem(STORAGE_PSEUDO));
   </script>
 </body>
 </html>
